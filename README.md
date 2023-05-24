@@ -1,3 +1,6 @@
 # Final Project
-## Credits:
-### - Christian Perez
+## Team:
+###     [name]
+###     [name] 
+###     [name]
+###     Christian Perez
