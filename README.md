@@ -2,5 +2,5 @@
 ## Team:
 ###     [name]
 ###     [name] 
-###     [name]
+###     Chase Houske
 ###     Christian Perez
