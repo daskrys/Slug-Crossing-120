@@ -1,7 +1,7 @@
 # Final Project
 ## Team:
 ###     [name]
-###     [name] 
+###     Jalen Suwa 
 ###     Chase Houske
 ###     Christian Perez
 ###     Kayla Garcia
