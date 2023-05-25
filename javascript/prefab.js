@@ -17,7 +17,10 @@ class Prefab extends Phaser.Scene
         this.player = this.physics.add.sprite(100, 900, 'player');
         this.player.setCollideWorldBounds(true);
         this.player.setScale(0.15);
-        this.add.text(150,150, "Test - WASD to move", {color: '#FFFFFF'}).setFontSize(30);
+        // text for testing delete later
+        this.add.text(150,150, "Test - Top Left of World", {color: '#FFFFFF'}).setFontSize(30);
+        this.add.text(150,800, "Test - WASD to move", {color: '#FFFFFF'}).setFontSize(30);
+        this.add.text(2500,2500, "Test - Bottom Right of World", {color: '#FFFFFF'}).setFontSize(30);
         // add keys from keyboard
         this.keys = this.input.keyboard.addKeys("W, A, S, D, SPACE"); 
 

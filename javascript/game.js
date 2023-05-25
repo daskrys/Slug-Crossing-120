@@ -22,7 +22,9 @@ class SceneOne extends Prefab
     create () 
     {
         super.create();
-       
+       this.physics.world.setBounds(0, 0, 3000, 3000);
+       this.cameras.main.setBounds(0, 0, 3000, 3000);
+       this.cameras.main.startFollow(this.player);
     }
 
     update () 
