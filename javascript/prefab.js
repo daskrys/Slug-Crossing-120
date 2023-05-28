@@ -8,16 +8,33 @@ class Prefab extends Phaser.Scene
     preload ()
     {
         this.load.image('player', 'assets/player/Player.png');
+        this.load.image('ground', 'assets/ground.png');
     }
 
     create () 
     {
         this.cameras.main.setBackgroundColor('#7393B3');
-        // adds player to 
+        //this.sys.game.canvas.width;
+        //this.sys.game.canvas.height;
+        
         this.player = this.physics.add.sprite(100, 100, 'player');
         this.player.setCollideWorldBounds(true);
+
+        //platforms
+        this.platforms = this.physics.add.staticGroup();
+        this.platforms.create(0, 400, 'ground').setScale(0.5).refreshBody();
+
+        // jump 
+        this.input.on('pointerdown', this.jump, this);
     }
 
+    jump ()
+    {
+        if(this.player.body.touching.down)
+        {
+            this.player.setVelocityY(-500);
+        }
+    }
     // currently not used as since it has to have touch controls
     move () // allows for movement of player in 4 directions as well as jump - if gravity is enabled
     {
