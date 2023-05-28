@@ -10,6 +10,8 @@ class Prefab extends Phaser.Scene
         this.load.image('player', 'assets/player/Player.png');
         this.load.image('ground', 'assets/ground.png');
         this.load.image('background', 'assets/background-placeholder.png');
+        //Temporary test tree from my physics demo
+        this.load.image('tree', 'assets/obstacles/Tree.png')
     }
 
     create () 
