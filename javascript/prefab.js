@@ -22,8 +22,8 @@ class Prefab extends Phaser.Scene
 
         //platforms
         this.platforms = this.physics.add.staticGroup();
-        this.platforms.create(0, 400, 'ground').setScale(0.5).refreshBody();
-
+        this.platforms.create(300, 350, 'ground').setScale(1).refreshBody();
+        this.physics.add.collider(this.player, this.platforms); 
         // jump 
         this.input.on('pointerdown', this.jump, this);
     }
@@ -32,7 +32,7 @@ class Prefab extends Phaser.Scene
     {
         if(this.player.body.touching.down)
         {
-            this.player.setVelocityY(-500);
+            this.player.setVelocityY(-200);
         }
     }
     // currently not used as since it has to have touch controls
