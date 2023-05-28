@@ -9,11 +9,14 @@ class Prefab extends Phaser.Scene
     {
         this.load.image('player', 'assets/player/Player.png');
         this.load.image('ground', 'assets/ground.png');
+        this.load.image('background', 'assets/background-placeholder.png');
     }
 
     create () 
     {
         this.cameras.main.setBackgroundColor('#7393B3');
+        this.background = this.add.tileSprite(0, 0, this.sys.game.config.width, this.sys.game.config.height, 'background');
+        this.background.setOrigin(0, 0);
         //this.sys.game.canvas.width;
         //this.sys.game.canvas.height;
         
@@ -74,7 +77,7 @@ class Prefab extends Phaser.Scene
 
     update () 
     {
-
+        this.background.tilePositionX += 1;
     }
 }
 
