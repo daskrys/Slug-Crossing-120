@@ -29,6 +29,7 @@ class Prefab extends Phaser.Scene
         this.physics.add.collider(this.player, this.platforms); 
         // jump 
         this.input.on('pointerdown', this.jump, this);
+        this.player.airjump = false;
     }
 
     jump ()
@@ -36,8 +37,13 @@ class Prefab extends Phaser.Scene
         if(this.player.body.touching.down)
         {
             this.player.setVelocityY(-200);
+            this.recenttime = this.game.getTime();
         }
-    }
+        else if ((this.player.body.touching.down == false) && ((this.game.getTime() - this.recenttime) > 500) && this.player.airjump){
+            this.player.airjump = false;
+            this.player.setVelocityY(-200);
+        }
+    }   
     // currently not used as since it has to have touch controls
     move () // allows for movement of player in 4 directions as well as jump - if gravity is enabled
     {
@@ -76,7 +82,10 @@ class Prefab extends Phaser.Scene
     }
 
     update () 
-    {
+    {   
+        if(this.player.body.touching.down){
+            this.player.airjump = true;
+        }
         this.background.tilePositionX += 1;
     }
 }
