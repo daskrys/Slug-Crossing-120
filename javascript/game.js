@@ -2,16 +2,7 @@ class SceneOne extends Prefab
 {
     constructor ()
     {
-        // disables gravity just for scene 1 - possible hub world able to move freely
-        super({
-            key: 'sceneone',
-            physics: {
-              default: 'arcade',
-              arcade: { 
-                gravity: { y: 0 }
-              }
-            }
-          });
+        super('sceneone');
     }
 
     preload ()
@@ -22,9 +13,6 @@ class SceneOne extends Prefab
     create () 
     {
         super.create();
-       this.physics.world.setBounds(0, 0, 3000, 3000);
-       this.cameras.main.setBounds(0, 0, 3000, 3000);
-       this.cameras.main.startFollow(this.player);
     }
 
     update () 
@@ -35,10 +23,10 @@ class SceneOne extends Prefab
 
 let config = {
     scale: {
-        mode: Phaser.Scale.FIT,
+        mode: Phaser.Scale.RESIZE,
         autoCenter: Phaser.Scale.CENTER_BOTH,
-        width: 1920,
-        height: 1080,
+        //width: 1920,
+        //height: 1080,
     },
 
     scene: [SceneOne],
@@ -46,7 +34,7 @@ let config = {
     physics: {
         default: 'arcade',
         arcade: {
-            gravity: {y: 300}
+            gravity: {y: 0}
         }
     }
 }

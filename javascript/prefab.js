@@ -7,25 +7,18 @@ class Prefab extends Phaser.Scene
 
     preload ()
     {
-        this.load.image('player', 'assets/circle.png');
+        this.load.image('player', 'assets/player/Player.png');
     }
 
     create () 
     {
         this.cameras.main.setBackgroundColor('#7393B3');
         // adds player to 
-        this.player = this.physics.add.sprite(100, 900, 'player');
+        this.player = this.physics.add.sprite(100, 100, 'player');
         this.player.setCollideWorldBounds(true);
-        this.player.setScale(0.15);
-        // text for testing delete later
-        this.add.text(150,150, "Test - Top Left of World", {color: '#FFFFFF'}).setFontSize(30);
-        this.add.text(150,800, "Test - WASD to move", {color: '#FFFFFF'}).setFontSize(30);
-        this.add.text(2500,2500, "Test - Bottom Right of World", {color: '#FFFFFF'}).setFontSize(30);
-        // add keys from keyboard
-        this.keys = this.input.keyboard.addKeys("W, A, S, D, SPACE"); 
-
     }
 
+    // currently not used as since it has to have touch controls
     move () // allows for movement of player in 4 directions as well as jump - if gravity is enabled
     {
         const speed = 4;
@@ -64,8 +57,6 @@ class Prefab extends Phaser.Scene
 
     update () 
     {
-        this.move();
-
 
     }
 }
