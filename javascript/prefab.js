@@ -79,7 +79,9 @@ class Prefab extends Phaser.Scene
         this.slug = this.physics.add.sprite(2320, 300, 'slug')
                 .setImmovable(true)
                 .setGravityY(-300)
-                .setGravityX(-50);
+                .setGravityX(-30);
+
+        this.time.delayedCall(Phaser.Math.Between(5000, 10000), this.spawnSlug, [], this);
     }
 
     loseLife () // called when a life needs to be deleted
