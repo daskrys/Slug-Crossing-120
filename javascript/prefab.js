@@ -133,6 +133,11 @@ class Prefab extends Phaser.Scene
     hit (player, obstacle)
     {
         obstacle.disableBody(true, true);
+        this.player.anims.play('rolling');
+
+        this.time.delayedCall(1500, () => {
+            this.player.anims.play('running');
+        });
 
         this.loseLife();
     }
@@ -156,7 +161,6 @@ class Prefab extends Phaser.Scene
 
     jump ()
     {
-        this.player.anims.stop('running');
         this.player.anims.play('jumping');
         
         if(this.player.body.touching.down)
@@ -170,7 +174,6 @@ class Prefab extends Phaser.Scene
         }
 
         this.time.delayedCall(1500, () => {
-            this.player.anims.stop('jump');
             this.player.anims.play('running');
         });
     }   
