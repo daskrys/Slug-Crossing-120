@@ -20,7 +20,7 @@ class SceneOne extends Prefab
     {
         super.update();
         //Moving trees as background objects, same way of code for the obstacles we'll add
-        if(((this.game.getTime() % 2000) >= 1800) && (this.treespawn == false)){
+        /*if(((this.game.getTime() % 2000) >= 1800) && (this.treespawn == false)){
             this.physics.add.sprite(2320, 181, 'tree')
                 .setImmovable(true)
                 .setGravityY(-300)
@@ -30,7 +30,7 @@ class SceneOne extends Prefab
         }
         if((this.game.getTime() % 2000) < 1800){
             this.treespawn = false;
-        }
+        }*/
     }
 }
 
