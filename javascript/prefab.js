@@ -68,12 +68,15 @@ class Prefab extends Phaser.Scene
             frameRate: 10,
             repeat: -1,
         });
-        //this.test = this.add.sprite(300, 315, 'obstacle').setScale(0.05);
+        
 
         // player
         this.player = this.physics.add.sprite(100, 100, 'player');
         this.physics.add.collider(this.player, this.platforms); 
         this.player.anims.play('running');
+
+        //obstacle test
+        this.obstacle = this.physics.add.group();
         
         // slug collectable
         this.slugs = this.physics.add.group();
@@ -89,7 +92,7 @@ class Prefab extends Phaser.Scene
         this.lives = this.add.group({
             key: 'life', 
             repeat: 2,
-            setXY: {x: 400, y: 25, stepX: 30}
+            setXY: {x: 350, y: 25, stepX: 30}
         });
     }
 
@@ -104,12 +107,17 @@ class Prefab extends Phaser.Scene
 
     spawnObstacle ()
     {
+        let obstacle = this.obstacle.create(1750, 310, 'obstacle');
+        obstacle.setGravityY(-300).setGravityX(-100).setScale(0.1);
+        
+        this.physics.add.overlap(this.player, obstacle, this.hit, null, this);
 
+        this.time.delayedCall(Phaser.Math.Between(5000, 10000), this.spawnObstacle, [], this);
     }
 
     spawnSlug ()
     {
-        let slug = this.slugs.create(2320, 310, 'slug');
+        let slug = this.slugs.create(1000, 310, 'slug');
         slug.setGravityY(-300).setGravityX(-10);
         slug.anims.play('slugwalk');
         this.physics.add.overlap(this.player, slug, this.collectSlug, null, this);
@@ -122,14 +130,27 @@ class Prefab extends Phaser.Scene
         this.time.delayedCall(Phaser.Math.Between(5000, 10000), this.spawnSlug, [], this);
     }
 
+    hit (player, obstacle)
+    {
+        obstacle.disableBody(true, true);
+
+        this.loseLife();
+    }
+
     loseLife () // called when a life needs to be deleted
     {
-        var life = lives.getChildren()[lives.countActive(true) - 1];
-        life.setActive(false).setVisible(false);
+        let life = this.lives.getChildren();
 
-        if (lives.countActive(true) == 0)
+        if(life.length > 0)
         {
-            // game ends
+            let lifeCount = life[life.length - 1];
+            this.lives.remove(lifeCount);
+            lifeCount.destroy();
+        }
+        else 
+        {
+            // no more lives game ends
+            console.log("GAME OVER");
         }
     }
 
