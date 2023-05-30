@@ -56,6 +56,16 @@ class Prefab extends Phaser.Scene
             frameRate: 10,
             repeat: -1,
         });
+
+        // slug animation
+        this.anims.create({
+            key: 'slugwalk',
+            frames: this.anims.generateFrameNames('slug', {
+                prefix: 'slug', start: 1, end: 4
+            }), 
+            frameRate: 10,
+            repeat: -1,
+        });
         
         // player
         this.player = this.physics.add.sprite(100, 100, 'player');
@@ -76,11 +86,11 @@ class Prefab extends Phaser.Scene
 
     spawnSlug ()
     {
-        this.slug = this.physics.add.sprite(2320, 300, 'slug')
+        this.slug = this.physics.add.sprite(2320, 310, 'slug')
                 .setImmovable(true)
                 .setGravityY(-300)
-                .setGravityX(-30);
-
+                .setGravityX(-10);
+        this.slug.anims.play('slugwalk');
         this.time.delayedCall(Phaser.Math.Between(5000, 10000), this.spawnSlug, [], this);
     }
 
