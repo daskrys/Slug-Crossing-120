@@ -71,7 +71,7 @@ class Prefab extends Phaser.Scene
         
 
         // player
-        this.player = this.physics.add.sprite(100, 100, 'player');
+        this.player = this.physics.add.sprite(100, 100, 'player').setScale(1.5);
         this.physics.add.collider(this.player, this.platforms); 
         this.player.anims.play('running');
 
@@ -118,7 +118,7 @@ class Prefab extends Phaser.Scene
     spawnSlug ()
     {
         let slug = this.slugs.create(1000, 310, 'slug');
-        slug.setGravityY(-300).setGravityX(-10);
+        slug.setGravityY(-300).setGravityX(-10).setScale(0.8);
         slug.anims.play('slugwalk');
         this.physics.add.overlap(this.player, slug, this.collectSlug, null, this);
 
