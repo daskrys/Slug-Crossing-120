@@ -11,12 +11,14 @@ class Prefab extends Phaser.Scene
         this.load.image('background', 'assets/background-placeholder.png');
         this.load.atlas('player', 'assets/player/playersheet.png', 'JSON/player.json');
         this.load.atlas('slug', 'assets/slug.png', 'JSON/slug.json');
+        this.load.image('life', 'assets/player/player.png');
         //Temporary test tree from my physics demo
-        this.load.image('tree', 'assets/obstacles/Tree.png')
+        this.load.image('tree', 'assets/obstacles/Tree.png');
     }
 
     create () 
     {
+        // background
         this.cameras.main.setBackgroundColor('#7393B3');
         this.background = this.add.tileSprite(0, 0, this.sys.game.config.width, this.sys.game.config.height, 'background');
         this.background.setOrigin(0, 0);
@@ -25,6 +27,7 @@ class Prefab extends Phaser.Scene
         this.platforms = this.physics.add.staticGroup();
         this.platforms.create(300, 350, 'ground').setScale(1).refreshBody();
 
+        // running animation
         this.anims.create({
             key: 'running',
             frames: this.anims.generateFrameNames('player', {
@@ -34,6 +37,7 @@ class Prefab extends Phaser.Scene
             repeat: -1,
         });
 
+        // jumping animation
         this.anims.create({
             key: 'jumping',
             frames: this.anims.generateFrameNames('player', {
@@ -43,6 +47,17 @@ class Prefab extends Phaser.Scene
             repeat: -1,
         });
 
+        // rolling animation
+        this.anims.create({
+            key: 'rolling',
+            frames: this.anims.generateFrameNames('player', {
+                prefix: 'roll', start: 1, end: 6
+            }), 
+            frameRate: 10,
+            repeat: -1,
+        });
+        
+        // player
         this.player = this.physics.add.sprite(100, 100, 'player');
         this.physics.add.collider(this.player, this.platforms); 
         this.player.anims.play('running');
@@ -50,6 +65,19 @@ class Prefab extends Phaser.Scene
         // jump 
         this.input.on('pointerdown', this.jump, this);
         this.player.airjump = false;
+
+        //hud things will probably need rework
+        this.lives = this.add.group({
+            key: 'life', 
+            repeat: 2,
+            setXY: {x: 400, y: 25, stepX: 30}
+        });
+    }
+
+    loseLife ()
+    {
+        var life = lives.getChildren()[lives.countActive(true) - 1];
+        life.setActive(false).setVisible(false);
     }
 
     jump ()
@@ -72,6 +100,17 @@ class Prefab extends Phaser.Scene
             this.player.anims.play('running');
         });
     }   
+
+    update () 
+    {   
+        if(this.player.body.touching.down)
+        {
+            this.player.airjump = true;
+        }
+
+        this.background.tilePositionX += 1;
+    }
+
     // currently not used as since it has to have touch controls
     move () // allows for movement of player in 4 directions as well as jump - if gravity is enabled
     {
@@ -108,16 +147,6 @@ class Prefab extends Phaser.Scene
             this.player.setPosition(100, 900);
             this.player.setVelocity(0);
         }
-    }
-
-    update () 
-    {   
-        if(this.player.body.touching.down)
-        {
-            this.player.airjump = true;
-        }
-        //this.player.anims.play('running');
-        this.background.tilePositionX += 1;
     }
 }
 
