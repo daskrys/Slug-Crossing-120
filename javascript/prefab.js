@@ -8,11 +8,13 @@ class Prefab extends Phaser.Scene
     preload ()
     {
         this.load.image('ground', 'assets/ground.png');
-        this.load.image('background', 'assets/background-placeholder.png');
         this.load.atlas('player', 'assets/player/playersheet.png', 'JSON/player.json');
         this.load.atlas('slug', 'assets/slug.png', 'JSON/slug.json');
         this.load.image('life', 'assets/player/player.png');
-        //Temporary test tree from my physics demo
+
+        // place holders below for testing
+        this.load.image('background', 'assets/background-placeholder.png');
+        this.load.image('obstacle', 'assets/circle.png');
         this.load.image('tree', 'assets/obstacles/Tree.png');
     }
 
@@ -66,17 +68,24 @@ class Prefab extends Phaser.Scene
             frameRate: 10,
             repeat: -1,
         });
-        
+        //this.test = this.add.sprite(300, 315, 'obstacle').setScale(0.05);
+
         // player
         this.player = this.physics.add.sprite(100, 100, 'player');
         this.physics.add.collider(this.player, this.platforms); 
         this.player.anims.play('running');
         
+        // slug collectable
+        this.slugs = this.physics.add.group();
+
         // jump 
         this.input.on('pointerdown', this.jump, this);
         this.player.airjump = false;
 
         //hud things will probably need rework
+        this.score = 0;
+        this.scoreBox = this.add.text(20, 25, 'SCORE: 0', { fontFamily: 'Times', fontSize: '20px', fill: '#FFFFFF' });
+
         this.lives = this.add.group({
             key: 'life', 
             repeat: 2,
@@ -84,13 +93,32 @@ class Prefab extends Phaser.Scene
         });
     }
 
+    collectSlug (player, slug)
+    {
+        slug.disableBody(true, true);
+        
+        // updates
+        ++this.score;
+        this.scoreBox.setText('SCORE: ' + this.score);
+    }
+
+    spawnObstacle ()
+    {
+
+    }
+
     spawnSlug ()
     {
-        this.slug = this.physics.add.sprite(2320, 310, 'slug')
+        let slug = this.slugs.create(2320, 310, 'slug');
+        slug.setGravityY(-300).setGravityX(-10);
+        slug.anims.play('slugwalk');
+        this.physics.add.overlap(this.player, slug, this.collectSlug, null, this);
+
+        /*this.slug = this.physics.add.sprite(2320, 310, 'slug')
                 .setImmovable(true)
                 .setGravityY(-300)
                 .setGravityX(-10);
-        this.slug.anims.play('slugwalk');
+        this.slug.anims.play('slugwalk'); */
         this.time.delayedCall(Phaser.Math.Between(5000, 10000), this.spawnSlug, [], this);
     }
 

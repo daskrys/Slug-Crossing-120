@@ -13,9 +13,8 @@ class SceneOne extends Prefab
     create () 
     {
         super.create();
-        this.treespawn = false;
-
         this.spawnSlug();
+        this.treespawn = false;
     }
 
     update () 
