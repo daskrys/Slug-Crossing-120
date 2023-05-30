@@ -108,7 +108,7 @@ class Prefab extends Phaser.Scene
     spawnObstacle ()
     {
         let obstacle = this.obstacle.create(1750, 310, 'obstacle');
-        obstacle.setGravityY(-300).setGravityX(-100).setScale(0.1);
+        obstacle.setGravityY(-300).setGravityX(-80).setScale(0.075);
         
         this.physics.add.overlap(this.player, obstacle, this.hit, null, this);
 
