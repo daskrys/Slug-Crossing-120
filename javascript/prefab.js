@@ -7,7 +7,6 @@ class Prefab extends Phaser.Scene
 
     preload ()
     {
-        //this.load.image('player', 'assets/player/Player.png');
         this.load.image('ground', 'assets/ground.png');
         this.load.image('background', 'assets/background-placeholder.png');
         this.load.atlas('player', 'assets/player/player.png', 'JSON/player.json');
@@ -108,7 +107,8 @@ class Prefab extends Phaser.Scene
             this.player.setVelocityY(-370);
         }
 
-        if (this.player.y >= this.physics.world.bounds.height - 70) {
+        if (this.player.y >= this.physics.world.bounds.height - 70) 
+        {
             this.player.setPosition(100, 900);
             this.player.setVelocity(0);
         }
