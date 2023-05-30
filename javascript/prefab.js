@@ -9,7 +9,7 @@ class Prefab extends Phaser.Scene
     {
         this.load.image('ground', 'assets/ground.png');
         this.load.image('background', 'assets/background-placeholder.png');
-        this.load.atlas('player', 'assets/player/player.png', 'JSON/player.json');
+        this.load.atlas('player', 'assets/player/playersheet.png', 'JSON/player.json');
         //Temporary test tree from my physics demo
         this.load.image('tree', 'assets/obstacles/Tree.png')
     }
@@ -23,11 +23,6 @@ class Prefab extends Phaser.Scene
         //platforms
         this.platforms = this.physics.add.staticGroup();
         this.platforms.create(300, 350, 'ground').setScale(1).refreshBody();
-
-        //this.sys.game.canvas.width;
-        //this.sys.game.canvas.height;
-        //this.player = this.physics.add.sprite(100, 100, 'player');
-        //this.player.setCollideWorldBounds(true);
 
         this.anims.create({
             key: 'running',
