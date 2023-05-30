@@ -116,7 +116,8 @@ class Prefab extends Phaser.Scene
 
     update () 
     {   
-        if(this.player.body.touching.down){
+        if(this.player.body.touching.down)
+        {
             this.player.airjump = true;
         }
         //this.player.anims.play('running');
