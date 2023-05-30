@@ -24,7 +24,7 @@ class SceneOne extends Prefab
             this.physics.add.sprite(2320, 181, 'tree')
                 .setImmovable(true)
                 .setGravityY(-300)
-                .setGravityX(-300)
+                .setGravityX(-100)
                 
             this.treespawn = true;
         }

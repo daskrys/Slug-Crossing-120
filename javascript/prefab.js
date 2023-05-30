@@ -74,10 +74,23 @@ class Prefab extends Phaser.Scene
         });
     }
 
-    loseLife ()
+    spawnSlug ()
+    {
+        this.slug = this.physics.add.sprite(2320, 300, 'slug')
+                .setImmovable(true)
+                .setGravityY(-300)
+                .setGravityX(-50);
+    }
+
+    loseLife () // called when a life needs to be deleted
     {
         var life = lives.getChildren()[lives.countActive(true) - 1];
         life.setActive(false).setVisible(false);
+
+        if (lives.countActive(true) == 0)
+        {
+            // game ends
+        }
     }
 
     jump ()
