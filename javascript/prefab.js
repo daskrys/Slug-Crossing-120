@@ -71,7 +71,13 @@ class Prefab extends Phaser.Scene
         
 
         // player
-        this.player = this.physics.add.sprite(100, 100, 'player').setScale(1.5);
+        this.player = this.physics.add.sprite(400, 100, 'player')
+            .setScale(1.5)  
+            .setSize(20, 40)
+        this.player.body.setOffset(8, 8)
+        this.player.curspeed = 0;
+            
+            
         this.physics.add.collider(this.player, this.platforms); 
         this.player.anims.play('running');
 
@@ -107,10 +113,13 @@ class Prefab extends Phaser.Scene
 
     spawnObstacle ()
     {
-        let obstacle = this.obstacle.create(1750, 310, 'obstacle');
+        let obstacle = this.obstacle.create(1750, 310, 'obstacle')
+            .setImmovable(true)
+            .setCircle(256, 0, 0);
+        this.physics.add.collider(this.player, this.obstacle); 
         obstacle.setGravityY(-300).setGravityX(-80).setScale(0.075);
         
-        this.physics.add.overlap(this.player, obstacle, this.hit, null, this);
+        //this.physics.add.overlap(this.player, obstacle, this.hit, null, this);
 
         this.time.delayedCall(Phaser.Math.Between(5000, 10000), this.spawnObstacle, [], this);
     }
@@ -186,6 +195,18 @@ class Prefab extends Phaser.Scene
         }
 
         this.background.tilePositionX += 1;
+        if(this.physics.collide(this.player, this.obstacle) == true){
+            this.player.curspeed = 0;
+            this.player.setVelocityX(this.player.curspeed);
+        }
+        if(this.player.x < 400){
+            this.player.setVelocityX(this.player.curspeed)
+            this.player.curspeed+= 0.2;
+        }
+        else{
+            this.player.curspeed = 0
+            this.player.setVelocityX(this.player.curspeed)
+        }
     }
 
     // currently not used as since it has to have touch controls

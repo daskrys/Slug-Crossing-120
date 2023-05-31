@@ -40,8 +40,8 @@ let config = {
     scale: {
         mode: Phaser.Scale.FIT,
         autoCenter: Phaser.Scale.CENTER_BOTH,
-        width: 500,
-        height: 900,
+        width: 1920,
+        height: 1080,
     },
 
     scene: [SceneOne],
@@ -49,9 +49,10 @@ let config = {
     physics: {
         default: 'arcade',
         arcade: {
-            gravity: {y: 300}
+            gravity: {y: 300},
+            debug: true
         }
-    }
+    },
 }
 
 const game = new Phaser.Game(config);
