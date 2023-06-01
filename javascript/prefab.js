@@ -16,6 +16,8 @@ class Prefab extends Phaser.Scene
         this.load.image('background', 'assets/background-placeholder.png');
         this.load.image('obstacle', 'assets/circle.png');
         this.load.image('tree', 'assets/obstacles/Tree.png');
+        this.load.image('wall', 'assets/TempDeathWall.png');
+        this.load.image('slugparticle', 'assets/slug.png');
     }
 
     create () 
@@ -28,7 +30,8 @@ class Prefab extends Phaser.Scene
         //platforms
         this.platforms = this.physics.add.staticGroup();
         this.platforms.create(300, 350, 'ground').setScale(1).refreshBody();
-
+        //Temporary death wall, will be giant monster slug eventually
+        this.wall = this.platforms.create(100, 280, 'wall').refreshBody(); 
         // running animation
         this.anims.create({
             key: 'running',
@@ -79,6 +82,7 @@ class Prefab extends Phaser.Scene
             
             
         this.physics.add.collider(this.player, this.platforms); 
+        this.physics.add.overlap(this.player, this.wall, this.endGame, null, this);
         this.player.anims.play('running');
 
         //obstacle test
@@ -100,7 +104,16 @@ class Prefab extends Phaser.Scene
             repeat: 2,
             setXY: {x: 350, y: 25, stepX: 30}
         });
+        //Particles
+        this.emitter = this.add.particles(0, 0, "slugparticle",{
+            speed: 240,
+            scale: { start: 1, end: 0 },
+            blendMode: 'ADD',
+            frequency: -1
+        });
+        
     }
+    
 
     collectSlug (player, slug)
     {
@@ -109,6 +122,7 @@ class Prefab extends Phaser.Scene
         // updates
         ++this.score;
         this.scoreBox.setText('SCORE: ' + this.score);
+            this.emitter.emitParticleAt(this.player.x, this.player.y, 4);
     }
 
     spawnObstacle ()
@@ -186,7 +200,9 @@ class Prefab extends Phaser.Scene
             this.player.anims.play('running');
         });
     }   
-
+    endGame(player, wall){
+        this.scene.start('endscreen', { score: this.score })
+    }
     update () 
     {   
         if(this.player.body.touching.down)
@@ -247,4 +263,5 @@ class Prefab extends Phaser.Scene
         }
     }
 }
+
 
