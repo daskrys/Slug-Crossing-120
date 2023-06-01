@@ -26,7 +26,7 @@ class SceneOne extends Prefab
             this.physics.add.sprite(2320, 181, 'tree')
                 .setImmovable(true)
                 .setGravityY(-300)
-                .setGravityX(-100)
+                .setVelocityX(-500)
                 
             this.treespawn = true;
         }
@@ -35,16 +35,30 @@ class SceneOne extends Prefab
         }
     }
 }
+class endScreen extends Phaser.Scene{
+    init(data) {
+        this.score = data.score;
+    }
+    constructor(){
+        super('endscreen')
+    }
+    create(){
+        this.cameras.main.setBackgroundColor('#FFF200')
+        console.log(this.score)
+        this.add.text(800, 540, 'You Lose!\nSCORE: ' + this.score, { fontFamily: 'Times', fontSize: '80px', fill: '#000000' });
+    }
+}
+
 
 let config = {
     scale: {
         mode: Phaser.Scale.FIT,
         autoCenter: Phaser.Scale.CENTER_BOTH,
-        width: 1920,
+        width: 2100,
         height: 1080,
     },
 
-    scene: [SceneOne],
+    scene: [SceneOne, endScreen],
     title: "Temp Name",
     physics: {
         default: 'arcade',
