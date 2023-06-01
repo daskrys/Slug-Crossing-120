@@ -17,7 +17,7 @@ class Prefab extends Phaser.Scene
         this.load.image('obstacle', 'assets/circle.png');
         this.load.image('tree', 'assets/obstacles/Tree.png');
         this.load.image('wall', 'assets/TempDeathWall.png');
-        this.load.image('slugparticle', 'assets/slug.png');
+        this.load.image('star', 'assets/star.png');
     }
 
     create () 
@@ -105,7 +105,7 @@ class Prefab extends Phaser.Scene
             setXY: {x: 350, y: 25, stepX: 30}
         });
         //Particles
-        this.emitter = this.add.particles(0, 0, "slugparticle",{
+        this.emitter = this.add.particles(0, 0, "star",{
             speed: 240,
             scale: { start: 1, end: 0 },
             blendMode: 'ADD',
