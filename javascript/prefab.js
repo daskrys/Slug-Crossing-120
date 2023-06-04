@@ -10,10 +10,10 @@ class Prefab extends Phaser.Scene
         this.load.image('ground', 'assets/ground.png');
         this.load.atlas('player', 'assets/player/playersheet.png', 'JSON/player.json');
         this.load.atlas('slug', 'assets/slug.png', 'JSON/slug.json');
-        this.load.image('life', 'assets/player/player.png');
+        //this.load.image('life', 'assets/player/player.png');
 
         // place holders below for testing
-        this.load.image('background', 'assets/background-placeholder.png');
+        this.load.image('background', 'assets/background.png');
         this.load.image('obstacle', 'assets/circle.png');
         this.load.image('tree', 'assets/obstacles/Tree.png');
         this.load.image('wall', 'assets/TempDeathWall.png');
@@ -23,13 +23,14 @@ class Prefab extends Phaser.Scene
     create () 
     {
         // background
-        this.cameras.main.setBackgroundColor('#7393B3');
+        //this.cameras.main.setBackgroundColor('#7393B3');
         this.background = this.add.tileSprite(0, 0, this.sys.game.config.width, this.sys.game.config.height, 'background');
         this.background.setOrigin(0, 0);
 
         //platforms
         this.platforms = this.physics.add.staticGroup();
-        this.platforms.create(300, 350, 'ground').setScale(1).refreshBody();
+        this.platforms.create(300, 1050, 'ground').setScale(1).refreshBody();
+        this.platforms.create(2400, 1050, 'ground').setScale(1).refreshBody();
         //Temporary death wall, will be giant monster slug eventually
         this.wall = this.platforms.create(100, 280, 'wall').refreshBody(); 
         // running animation
@@ -74,7 +75,7 @@ class Prefab extends Phaser.Scene
         
 
         // player
-        this.player = this.physics.add.sprite(400, 100, 'player')
+        this.player = this.physics.add.sprite(400, 785, 'player')
             .setScale(1.5)  
             .setSize(20, 40)
         this.player.body.setOffset(8, 8)
@@ -99,11 +100,11 @@ class Prefab extends Phaser.Scene
         this.score = 0;
         this.scoreBox = this.add.text(20, 25, 'SCORE: 0', { fontFamily: 'Times', fontSize: '20px', fill: '#FFFFFF' });
 
-        this.lives = this.add.group({
+        /*this.lives = this.add.group({
             key: 'life', 
             repeat: 2,
             setXY: {x: 350, y: 25, stepX: 30}
-        });
+        });*/
         //Particles
         this.emitter = this.add.particles(0, 0, "star",{
             speed: 240,
@@ -137,10 +138,18 @@ class Prefab extends Phaser.Scene
 
         this.time.delayedCall(Phaser.Math.Between(5000, 10000), this.spawnObstacle, [], this);
     }
+    spawnTree(){
+        this.tree = this.physics.add.sprite(2320, 755, 'tree')
+            .setImmovable(true)
+            .setGravityY(-300)
+            .setVelocityX(-500)
+            .setScale(2)
+            this.time.delayedCall(2000, this.spawnTree, [], this);
+    }
 
     spawnSlug ()
     {
-        let slug = this.slugs.create(1000, 310, 'slug');
+        let slug = this.slugs.create(1000, 802, 'slug');
         slug.setGravityY(-300).setGravityX(-10).setScale(0.8);
         slug.anims.play('slugwalk');
         this.physics.add.overlap(this.player, slug, this.collectSlug, null, this);
@@ -162,9 +171,9 @@ class Prefab extends Phaser.Scene
             this.player.anims.play('running');
         });
 
-        this.loseLife();
+        //this.loseLife();
     }
-
+    /*
     loseLife () // called when a life needs to be deleted
     {
         let life = this.lives.getChildren();
@@ -180,7 +189,7 @@ class Prefab extends Phaser.Scene
             // no more lives game ends
             console.log("GAME OVER");
         }
-    }
+    }*/
 
     jump ()
     {
@@ -210,7 +219,7 @@ class Prefab extends Phaser.Scene
             this.player.airjump = true;
         }
 
-        this.background.tilePositionX += 1;
+        //this.background.tilePositionX += 1;
         if(this.physics.collide(this.player, this.obstacle) == true){
             this.player.curspeed = 0;
             this.player.setVelocityX(this.player.curspeed);

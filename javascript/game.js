@@ -15,24 +15,13 @@ class SceneOne extends Prefab
         super.create();
         this.spawnSlug();
         this.spawnObstacle();
+        this.time.delayedCall(2000, this.spawnTree, [], this);
         this.treespawn = false;
     }
 
     update () 
     {
         super.update();
-        //Moving trees as background objects, same way of code for the obstacles we'll add
-        if(((this.game.getTime() % 2000) >= 1800) && (this.treespawn == false)){
-            this.physics.add.sprite(2320, 270, 'tree')
-                .setImmovable(true)
-                .setGravityY(-300)
-                .setVelocityX(-500)
-                .setScale(2)
-            this.treespawn = true;
-        }
-        if((this.game.getTime() % 2000) < 1800){
-            this.treespawn = false;
-        }
     }
 }
 class endScreen extends Phaser.Scene{
@@ -64,7 +53,7 @@ let config = {
         default: 'arcade',
         arcade: {
             gravity: {y: 300},
-            debug: true
+            //debug: true
         }
     },
 }
