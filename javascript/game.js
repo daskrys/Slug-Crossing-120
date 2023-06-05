@@ -44,7 +44,7 @@ class Title extends Phaser.Scene {
             this.load.path="./assets/";
             this.load.image('title','slug crossing.png');
             this.load.image('theshader','shade2.png');
-            this.load.audio('logos', 'logos.wav');
+            this.load.audio('logos', 'menu_music.wav');
             this.load.glsl('bundle', 'bundle.glsl.js')
     }
     create() {
