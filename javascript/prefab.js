@@ -19,10 +19,12 @@ class Prefab extends Phaser.Scene
         this.load.image('wall', 'assets/TempDeathWall.png');
         this.load.image('star', 'assets/star.png');
         this.load.audio('blip', 'assets/blip.mp3');
+        this.load.audio('jumpSound', 'assets/jump.mp3');
     }
 
     create () 
     {
+        this.jumpSound = this.sound.add('jumpSound');
         this.config = {
             "jumpvel": "-200",
             "objspd": "-80"
@@ -200,6 +202,7 @@ class Prefab extends Phaser.Scene
 
     jump ()
     {
+        this.jumpSound.play();
         this.player.anims.play('jumping');
         
         if(this.player.body.touching.down)
