@@ -189,7 +189,7 @@ class Credits extends Phaser.Scene {
         const artText = this.add.text(50, 600, 'all art done by Kayla Garcia using pixilart.com/photoshop/canva', { fontSize: '50px', fill: '#24487a' });
         artText.setDepth(1);
 
-        const musicText = this.add.text(50, 685, 'all music/sound effects done by Jalen Suwa', { fontSize: '50px', fill: '#24487a' });
+        const musicText = this.add.text(50, 685, 'all music done by Jalen Suwa using TheLovelyComposer/BFXR', { fontSize: '50px', fill: '#24487a' });
         musicText.setDepth(1);
 
         const codeText = this.add.text(50, 775, 'code was a group effort including:\n \nChase Houske, Christian Perez, Kayla Garcia', { fontSize: '50px', fill: '#24487a' });
