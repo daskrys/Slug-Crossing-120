@@ -58,7 +58,33 @@ class Title extends Phaser.Scene {
 
         const backgroundMusic = this.sound.add('logos', { loop: true });
         backgroundMusic.play();
+        ////credits button//////
+        const creditsText = this.add.text(820, 950, 'credits', { fontSize: '100px', fill: '#24487a' });
+        creditsText.setDepth(1);
+        creditsText.setInteractive();
+            this.tweens.add({
+                targets: creditsText,
+                duration: 500,
+                scaleX: 1.03,
+                scaleY: 1.03,
+                yoyo: true,
+                repeat: -1,
+                ease: 'Sine.easeInOut'
+            });
 
+            creditsText.on('pointerover', () => {
+                creditsText.setStyle({ fill: '#ff0' });
+            });
+            creditsText.on('pointerout', () => {
+                creditsText.setStyle({ fill: '#24487a' });
+            });
+            creditsText.on('pointerdown', () => {
+                backgroundMusic.stop();
+                this.scene.start('credits');
+            });
+
+
+        ///play button////
         const playText = this.add.text(900, 800, 'play', { fontSize: '100px', fill: '#24487a' });
         playText.setDepth(1);
         playText.setInteractive();
@@ -95,6 +121,12 @@ class Title extends Phaser.Scene {
             this.scene.start('sceneone');
         });
 
+        creditsText.on('pointerdown', () => {
+            clickSound.play();
+            backgroundMusic.stop();
+            this.scene.start('credits');
+        });
+
         const title = this.add.image(500, -100, 'title');
         //title.setScale(10); Doing this made it blurry, so I made a nonblurry title 10x the size
         title.setOrigin(0);
@@ -121,6 +153,55 @@ class Title extends Phaser.Scene {
     
     }
 }
+
+
+class Credits extends Phaser.Scene {
+    constructor() {
+        super('credits');
+    }
+
+    preload(){
+        this.load.path="./assets/";
+    }
+
+    create(){
+        this.cameras.main.setBackgroundColor('#add8e6')
+        ////Back button/////
+        const backText = this.add.text(50, 50, 'back', { fontSize: '100px', fill: '#24487a' });
+        backText.setDepth(1);
+
+        backText.setInteractive();
+        backText.on('pointerover', () => {
+            backText.setStyle({ fill: '#ff0' });
+        });
+        backText.on('pointerout', () => {
+            backText.setStyle({ fill: '#24487a' });
+        });
+        backText.on('pointerdown', () => {
+            this.scene.start('title');
+        });
+        //////////////////////////
+
+        ////text//////
+        const colText = this.add.text(50, 200, 'collaborators:\nProduction Lead:Kayla Garcia,\n\nTesting Lead:Christian Perez,\n\nTesting Lead:Jalen Suwa,\n\nTechnology Lead:Chase Houske ', { fontSize: '50px', fill: '#24487a' });
+        colText.setDepth(1);
+
+        const artText = this.add.text(50, 600, 'all art done by Kayla Garcia using pixilart.com/photoshop/canva', { fontSize: '50px', fill: '#24487a' });
+        artText.setDepth(1);
+
+        const musicText = this.add.text(50, 685, 'all music/sound effects done by Jalen Suwa', { fontSize: '50px', fill: '#24487a' });
+        musicText.setDepth(1);
+
+        const codeText = this.add.text(50, 775, 'code was a group effort including:\n \nChase Houske, Christian Perez, Kayla Garcia', { fontSize: '50px', fill: '#24487a' });
+        codeText.setDepth(1);
+    }
+
+
+
+
+
+}
+
 
 class SceneOne extends Prefab
 {
@@ -193,7 +274,7 @@ let config = {
         height: 1080,
     },
 
-    scene: [S0, Title, SceneOne, endScreen],
+    scene: [S0, Title,Credits, SceneOne, endScreen],
     title: "Slug Crossing",
     physics: {
         default: 'arcade',
