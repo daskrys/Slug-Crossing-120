@@ -43,10 +43,13 @@ class Title extends Phaser.Scene {
     preload(){
             this.load.path="./assets/";
             this.load.image('title','slug crossing.png');
+            this.load.image('theshader','shade2.png');
             this.load.audio('logos', 'logos.wav');
+            this.load.glsl('bundle', 'bundle.glsl.js')
     }
     create() {
-        
+        this.shader = this.add.shader('Tunnel', 1050, 540, 2100, 1080, [ 'theshader' ]);
+        this.shader.setInteractive();
         this.cameras.main.setBackgroundColor('#add8e6')
 
         const backgroundMusic = this.sound.add('logos', { loop: false });
@@ -79,7 +82,7 @@ class Title extends Phaser.Scene {
         });
 
         const title = this.add.image(500, -100, 'title');
-        title.setScale(10);
+        //title.setScale(10); Doing this made it blurry, so I made a nonblurry title 10x the size
         title.setOrigin(0);
         title.setDepth(0);
         title.setInteractive();

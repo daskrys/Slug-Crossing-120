@@ -219,7 +219,7 @@ class Prefab extends Phaser.Scene
             this.player.airjump = true;
         }
 
-        //this.background.tilePositionX += 1;
+        this.background.tilePositionX += 1;
         if(this.physics.collide(this.player, this.obstacle) == true){
             this.player.curspeed = 0;
             this.player.setVelocityX(this.player.curspeed);
