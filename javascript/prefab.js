@@ -18,6 +18,7 @@ class Prefab extends Phaser.Scene
         this.load.image('tree', 'assets/obstacles/Tree.png');
         this.load.image('wall', 'assets/TempDeathWall.png');
         this.load.image('star', 'assets/star.png');
+        this.load.audio('blip', 'assets/blip.mp3');
     }
 
     create () 
@@ -32,7 +33,7 @@ class Prefab extends Phaser.Scene
         this.platforms.create(300, 1050, 'ground').setScale(1).refreshBody();
         this.platforms.create(2400, 1050, 'ground').setScale(1).refreshBody();
         //Temporary death wall, will be giant monster slug eventually
-        this.wall = this.platforms.create(100, 280, 'wall').refreshBody(); 
+        this.wall = this.platforms.create(100, 770, 'wall').refreshBody(); 
         // running animation
         this.anims.create({
             key: 'running',
@@ -98,7 +99,7 @@ class Prefab extends Phaser.Scene
 
         //hud things will probably need rework
         this.score = 0;
-        this.scoreBox = this.add.text(20, 25, 'SCORE: 0', { fontFamily: 'Times', fontSize: '20px', fill: '#FFFFFF' });
+        this.scoreBox = this.add.text(20, 25, 'SCORE: 0', { fontFamily: 'Times', fontSize: '40px', fill: '#FFFFFF' });
 
         /*this.lives = this.add.group({
             key: 'life', 
@@ -117,7 +118,8 @@ class Prefab extends Phaser.Scene
     
 
     collectSlug (player, slug)
-    {
+    {   const beep = this.sound.add('blip', { loop: false });
+        beep.play();
         slug.disableBody(true, true);
         
         // updates
@@ -128,7 +130,7 @@ class Prefab extends Phaser.Scene
 
     spawnObstacle ()
     {
-        let obstacle = this.obstacle.create(1750, 310, 'obstacle')
+        let obstacle = this.obstacle.create(1750, 810, 'obstacle')
             .setImmovable(true)
             .setCircle(256, 0, 0);
         this.physics.add.collider(this.player, this.obstacle); 

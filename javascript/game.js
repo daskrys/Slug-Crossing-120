@@ -52,7 +52,7 @@ class Title extends Phaser.Scene {
         this.shader.setInteractive();
         this.cameras.main.setBackgroundColor('#add8e6')
 
-        const backgroundMusic = this.sound.add('logos', { loop: false });
+        const backgroundMusic = this.sound.add('logos', { loop: true });
         backgroundMusic.play();
 
         const playText = this.add.text(900, 800, 'play', { fontSize: '100px', fill: '#24487a' });
@@ -78,6 +78,7 @@ class Title extends Phaser.Scene {
             playText.setStyle({ fill: '#24487a' });
         });
         playText.on('pointerdown', () => {
+            backgroundMusic.stop();
             this.scene.start('sceneone');
         });
 
@@ -143,7 +144,6 @@ class endScreen extends Phaser.Scene{
     }
     create(){
         this.cameras.main.setBackgroundColor('#FFF200')
-        console.log(this.score)
         this.add.text(800, 540, 'You Lose!\nSCORE: ' + this.score, { fontFamily: 'Times', fontSize: '80px', fill: '#000000' });
     }
 }
