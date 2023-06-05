@@ -45,9 +45,13 @@ class Title extends Phaser.Scene {
             this.load.image('title','slug crossing.png');
             this.load.image('theshader','shade2.png');
             this.load.audio('logos', 'menu_music.wav');
-            this.load.glsl('bundle', 'bundle.glsl.js')
+            this.load.glsl('bundle', 'bundle.glsl.js');
+            this.load.audio('click', 'click2start.wav');
     }
     create() {
+
+        
+
         this.shader = this.add.shader('Tunnel', 1050, 540, 2100, 1080, [ 'theshader' ]);
         this.shader.setInteractive();
         this.cameras.main.setBackgroundColor('#add8e6')
@@ -78,6 +82,15 @@ class Title extends Phaser.Scene {
             playText.setStyle({ fill: '#24487a' });
         });
         playText.on('pointerdown', () => {
+            backgroundMusic.stop();
+            this.scene.start('sceneone');
+        });
+
+
+        const clickSound = this.sound.add('click');
+
+        playText.on('pointerdown', () => {
+            clickSound.play();
             backgroundMusic.stop();
             this.scene.start('sceneone');
         });
