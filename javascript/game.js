@@ -148,16 +148,33 @@ class SceneOne extends Prefab
         super.update();
     }
 }
+
+
+
 class endScreen extends Phaser.Scene{
+
+    preload(){
+        this.load.path="./assets/";
+        this.load.audio('end', 'end_screen_music.wav');
+    }
+
+
     init(data) {
         this.score = data.score;
     }
+
     constructor(){
         super('endscreen')
     }
+
     create(){
         this.cameras.main.setBackgroundColor('#FFF200')
         this.add.text(800, 540, 'You Lose!\nSCORE: ' + this.score, { fontFamily: 'Times', fontSize: '80px', fill: '#000000' });
+
+        const backgroundMusic = this.sound.add('end', { loop: true });
+        backgroundMusic.play();
+
+
     }
 }
 
