@@ -132,15 +132,21 @@ class SceneOne extends Prefab
     preload ()
     {
         super.preload();
+        this.load.path='./assets';
+        this.load.audio=('bg', 'bg_music.wav');
     }
 
     create () 
     {
+        const backgroundMusic = this.sound.add('bg', { loop: true });
+        backgroundMusic.play();
         super.create();
         this.spawnSlug();
         this.spawnObstacle();
         this.time.delayedCall(2000, this.spawnTree, [], this);
         this.treespawn = false;
+
+       
     }
 
     update () 
@@ -171,9 +177,14 @@ class endScreen extends Phaser.Scene{
         this.cameras.main.setBackgroundColor('#FFF200')
         this.add.text(800, 540, 'You Lose!\nSCORE: ' + this.score, { fontFamily: 'Times', fontSize: '80px', fill: '#000000' });
 
+        const sceneOne = this.scene.get('sceneone');
+        sceneOne.sound.stopAll(); // Stop all sounds from SceneOne
+
+
         const backgroundMusic = this.sound.add('end', { loop: true });
         backgroundMusic.play();
 
+        
 
     }
 }
