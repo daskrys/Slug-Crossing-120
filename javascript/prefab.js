@@ -23,6 +23,11 @@ class Prefab extends Phaser.Scene
 
     create () 
     {
+        this.config = {
+            "jumpvel": "-200",
+            "objspd": "-80"
+
+        }
         // background
         //this.cameras.main.setBackgroundColor('#7393B3');
         this.background = this.add.tileSprite(0, 0, this.sys.game.config.width, this.sys.game.config.height, 'background');
@@ -134,7 +139,7 @@ class Prefab extends Phaser.Scene
             .setImmovable(true)
             .setCircle(256, 0, 0);
         this.physics.add.collider(this.player, this.obstacle); 
-        obstacle.setGravityY(-300).setGravityX(-80).setScale(0.075);
+        obstacle.setGravityY(-300).setGravityX(parseInt(this.config["objspd"])).setScale(0.075);
         
         //this.physics.add.overlap(this.player, obstacle, this.hit, null, this);
 
@@ -199,12 +204,13 @@ class Prefab extends Phaser.Scene
         
         if(this.player.body.touching.down)
         {
-            this.player.setVelocityY(-200);
+            this.player.setVelocityY(parseInt(this.config["jumpvel"]));
+            console.log(this.config["jumpvel"])
             this.recenttime = this.game.getTime();
         }
         else if ((this.player.body.touching.down == false) && ((this.game.getTime() - this.recenttime) > 500) && this.player.airjump){
             this.player.airjump = false;
-            this.player.setVelocityY(-200);
+            this.player.setVelocityY(parseInt(this.config["jumpvel"]));
         }
 
         this.time.delayedCall(1500, () => {
