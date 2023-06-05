@@ -10,6 +10,7 @@ class Prefab extends Phaser.Scene
         this.load.image('ground', 'assets/ground.png');
         this.load.atlas('player', 'assets/player/playersheet.png', 'JSON/player.json');
         this.load.atlas('slug', 'assets/slug.png', 'JSON/slug.json');
+        this.load.atlas('bird', 'assets/bird.png');
         //this.load.image('life', 'assets/player/player.png');
 
         // place holders below for testing
