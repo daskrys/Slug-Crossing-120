@@ -143,12 +143,12 @@ class Prefab extends Phaser.Scene
 
     spawnObstacle ()
     {
-        let obstacle = this.obstacle.create(1750, 770, 'bird')
+        let obstacle = this.obstacle.create(1750, 810, 'obstacle') // breaks if i change to bird
             .setImmovable(true)
             .setCircle(256, 0, 0);
         this.physics.add.collider(this.player, this.obstacle); 
-        obstacle.setGravityY(-300).setGravityX(parseInt(this.config["objspd"])).setScale(3.5);
-        obstacle.anims.play('birdfly'); // plays animation for bird
+        obstacle.setGravityY(-300).setGravityX(parseInt(this.config["objspd"])).setScale(0.075);
+        //obstacle.anims.play('birdfly'); // plays animation for bird
         //this.physics.add.overlap(this.player, obstacle, this.hit, null, this);
 
         this.time.delayedCall(Phaser.Math.Between(5000, 10000), this.spawnObstacle, [], this);
