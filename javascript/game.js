@@ -30,7 +30,7 @@ class S0 extends Phaser.Scene {
         repeat: -1,
     });
 
-    this.input.on('pointerdown', () => this.scene.start('title'));
+    this.input.on('pointerdown', () => this.scene.start('title', { mutevalue: false }));
     }
 }
 
@@ -48,16 +48,24 @@ class Title extends Phaser.Scene {
             this.load.glsl('bundle', 'bundle.glsl.js');
             this.load.audio('click', 'click2start.wav');
     }
+    init(data) {
+        this.mutevalue = data.mutevalue;
+    } 
     create() {
-
-        
-
         this.shader = this.add.shader('Tunnel', 1050, 540, 2100, 1080, [ 'theshader' ]);
         this.shader.setInteractive();
         this.cameras.main.setBackgroundColor('#add8e6')
 
         const backgroundMusic = this.sound.add('logos', { loop: true });
-        backgroundMusic.play();
+        if(this.mutevalue == false){
+            backgroundMusic.play();
+        }
+        //options button//
+        this.options = this.add.text(1600, 940, 'options', { fontSize: '100px', fill: '#24487a' }).setInteractive()
+        this.options.on('pointerdown', () => {
+            backgroundMusic.stop()
+            this.scene.start('options', { mutevalue: this.mutevalue })
+        });
         ////credits button//////
         const creditsText = this.add.text(820, 950, 'credits', { fontSize: '100px', fill: '#24487a' });
         creditsText.setDepth(1);
@@ -80,7 +88,7 @@ class Title extends Phaser.Scene {
             });
             creditsText.on('pointerdown', () => {
                 backgroundMusic.stop();
-                this.scene.start('credits');
+                this.scene.start('credits', { mutevalue: this.mutevalue });
             });
 
 
@@ -109,22 +117,26 @@ class Title extends Phaser.Scene {
         });
         playText.on('pointerdown', () => {
             backgroundMusic.stop();
-            this.scene.start('sceneone');
+            this.scene.start('sceneone', { mutevalue: this.mutevalue });
         });
 
 
         const clickSound = this.sound.add('click');
 
         playText.on('pointerdown', () => {
-            clickSound.play();
+            if(this.mutevalue == false){
+                clickSound.play();
+            }
             backgroundMusic.stop();
-            this.scene.start('sceneone');
+            this.scene.start('sceneone', { mutevalue: this.mutevalue });
         });
 
         creditsText.on('pointerdown', () => {
-            clickSound.play();
+            if(this.mutevalue == false){
+                clickSound.play();
+            }
             backgroundMusic.stop();
-            this.scene.start('credits');
+            this.scene.start('credits', { mutevalue: this.mutevalue });
         });
 
         const title = this.add.image(500, -100, 'title');
@@ -153,6 +165,48 @@ class Title extends Phaser.Scene {
     
     }
 }
+class options extends Phaser.Scene{
+    constructor() {
+        super('options')
+    }
+    preload(){
+        this.load.path="./assets/"
+        this.load.image('unmuted', 'audio.png')
+        this.load.image('muted', 'mute.png')
+    }
+    init(data) {
+        this.mutevalue = data.mutevalue;
+    } 
+    create(){
+        this.cameras.main.setBackgroundColor('#FFF200')
+        this.back = this.add.text(1600, 940, 'back', { fontSize: '100px', fill: '#24487a' }).setInteractive()
+        this.back.on('pointerdown', () => {
+            this.scene.start('title', { mutevalue: this.mutevalue })       
+        });
+        if(this.mutevalue == false){
+            this.createunmute()
+        }
+        else{
+            this.createmute();
+        }
+    }
+    createunmute(){
+        this.unmuted = this.add.image(1050, 540, 'unmuted').setInteractive();
+                this.unmuted.on('pointerdown', () => {
+                    this.mutevalue = true;
+                    this.unmuted.destroy();
+                    this.createmute()
+        });
+    }
+    createmute(){
+        this.muted = this.add.image(1050, 540, 'muted').setInteractive();
+                this.muted.on('pointerdown', () => {
+                    this.mutevalue = false;
+                    this.muted.destroy();
+                    this.createunmute()
+        });
+    }
+}
 
 
 class Credits extends Phaser.Scene {
@@ -163,7 +217,9 @@ class Credits extends Phaser.Scene {
     preload(){
         this.load.path="./assets/";
     }
-
+    init(data) {
+        this.mutevalue = data.mutevalue;
+    } 
     create(){
         this.cameras.main.setBackgroundColor('#add8e6')
         ////Back button/////
@@ -178,7 +234,7 @@ class Credits extends Phaser.Scene {
             backText.setStyle({ fill: '#24487a' });
         });
         backText.on('pointerdown', () => {
-            this.scene.start('title');
+            this.scene.start('title', { mutevalue: this.mutevalue });
         });
         //////////////////////////
 
@@ -210,13 +266,15 @@ class SceneOne extends Prefab
         super('sceneone');
 
     }
-
+    
     preload ()
     {
         super.preload();
         this.load.audio('bg', 'assets/bg_music.wav');
     }
-
+    init(data) {
+        this.mutevalue = data.mutevalue;
+    } 
     create () 
     {
         super.create();
@@ -226,7 +284,9 @@ class SceneOne extends Prefab
         this.treespawn = false;
 
         const backgroundMusic = this.sound.add('bg', { loop: true });
-        backgroundMusic.play();
+        if(this.mutevalue == false){
+            backgroundMusic.play();
+        }
         
     }
 
@@ -274,7 +334,7 @@ let config = {
         height: 1080,
     },
 
-    scene: [S0, Title,Credits, SceneOne, endScreen],
+    scene: [S0, Title,Credits, SceneOne, endScreen, options],
     title: "Slug Crossing",
     physics: {
         default: 'arcade',

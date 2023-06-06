@@ -22,7 +22,9 @@ class Prefab extends Phaser.Scene
         this.load.audio('blip', 'assets/blip.mp3');
         this.load.audio('jumpSound', 'assets/jump.mp3');
     }
-
+    init(data) {
+        this.mutevalue = data.mutevalue;
+    } 
     create () 
     {
         this.jumpSound = this.sound.add('jumpSound');
@@ -132,7 +134,9 @@ class Prefab extends Phaser.Scene
 
     collectSlug (player, slug)
     {   const beep = this.sound.add('blip', { loop: false });
-        beep.play();
+        if(this.mutevalue == false){
+            beep.play();
+        }
         slug.disableBody(true, true);
         
         // updates
@@ -190,8 +194,9 @@ class Prefab extends Phaser.Scene
     }
 
     jump ()
-    {
-        this.jumpSound.play();
+    {   if(this.mutevalue == false){
+            this.jumpSound.play();
+        }
         this.player.anims.play('jumping');
         
         if(this.player.body.touching.down)
@@ -211,6 +216,7 @@ class Prefab extends Phaser.Scene
     }   
     endGame(player, wall){
         this.scene.start('endscreen', { score: this.score })
+        
     }
     update () 
     {   
