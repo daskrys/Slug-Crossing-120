@@ -10,7 +10,7 @@ class Prefab extends Phaser.Scene
         this.load.image('ground', 'assets/ground.png');
         this.load.atlas('player', 'assets/player/playersheet.png', 'JSON/player.json');
         this.load.atlas('slug', 'assets/slug.png', 'JSON/slug.json');
-        this.load.atlas('bird', 'assets/bird.png');
+        this.load.atlas('bird', 'assets/bird.png', 'JSON/bird.json');
         //this.load.image('life', 'assets/player/player.png');
 
         // place holders below for testing
@@ -42,6 +42,7 @@ class Prefab extends Phaser.Scene
         this.platforms.create(2400, 1050, 'ground').setScale(1).refreshBody();
         //Temporary death wall, will be giant monster slug eventually
         this.wall = this.platforms.create(100, 770, 'wall').refreshBody(); 
+        
         // running animation
         this.anims.create({
             key: 'running',
@@ -81,7 +82,16 @@ class Prefab extends Phaser.Scene
             frameRate: 10,
             repeat: -1,
         });
-        
+
+        // bird animation
+        this.anims.create({
+            key: 'birdfly',
+            frames: this.anims.generateFrameNames('bird', {
+                prefix: 'bird', start: 1, end: 4
+            }), 
+            frameRate: 10,
+            repeat: -1,
+        });
 
         // player
         this.player = this.physics.add.sprite(400, 785, 'player')
@@ -109,11 +119,6 @@ class Prefab extends Phaser.Scene
         this.score = 0;
         this.scoreBox = this.add.text(20, 25, 'SCORE: 0', { fontFamily: 'Times', fontSize: '40px', fill: '#FFFFFF' });
 
-        /*this.lives = this.add.group({
-            key: 'life', 
-            repeat: 2,
-            setXY: {x: 350, y: 25, stepX: 30}
-        });*/
         //Particles
         this.emitter = this.add.particles(0, 0, "star",{
             speed: 240,
@@ -138,12 +143,12 @@ class Prefab extends Phaser.Scene
 
     spawnObstacle ()
     {
-        let obstacle = this.obstacle.create(1750, 810, 'obstacle')
+        let obstacle = this.obstacle.create(1750, 770, 'bird')
             .setImmovable(true)
             .setCircle(256, 0, 0);
         this.physics.add.collider(this.player, this.obstacle); 
-        obstacle.setGravityY(-300).setGravityX(parseInt(this.config["objspd"])).setScale(0.075);
-        
+        obstacle.setGravityY(-300).setGravityX(parseInt(this.config["objspd"])).setScale(3.5);
+        obstacle.anims.play('birdfly'); // plays animation for bird
         //this.physics.add.overlap(this.player, obstacle, this.hit, null, this);
 
         this.time.delayedCall(Phaser.Math.Between(5000, 10000), this.spawnObstacle, [], this);
@@ -183,23 +188,6 @@ class Prefab extends Phaser.Scene
 
         //this.loseLife();
     }
-    /*
-    loseLife () // called when a life needs to be deleted
-    {
-        let life = this.lives.getChildren();
-
-        if(life.length > 0)
-        {
-            let lifeCount = life[life.length - 1];
-            this.lives.remove(lifeCount);
-            lifeCount.destroy();
-        }
-        else 
-        {
-            // no more lives game ends
-            console.log("GAME OVER");
-        }
-    }*/
 
     jump ()
     {
@@ -243,44 +231,6 @@ class Prefab extends Phaser.Scene
         else{
             this.player.curspeed = 0
             this.player.setVelocityX(this.player.curspeed)
-        }
-    }
-
-    // currently not used as since it has to have touch controls
-    move () // allows for movement of player in 4 directions as well as jump - if gravity is enabled
-    {
-        const speed = 4;
-        if(this.keys.W.isDown)
-        {
-            this.player.y -= speed;
-        }
-
-        if(this.keys.S.isDown)
-        {
-            this.player.y += speed;
-        }
-        
-        if(this.keys.A.isDown)
-        {
-            this.player.x -= speed;
-            this.player.flipX = false;
-        }
-
-        if(this.keys.D.isDown)
-        {
-            this.player.x += speed;
-            this.player.flipX = true;
-        }
-
-        if(this.keys.SPACE.isDown && this.player.body.touching.down)
-        {
-            this.player.setVelocityY(-370);
-        }
-
-        if (this.player.y >= this.physics.world.bounds.height - 70) 
-        {
-            this.player.setPosition(100, 900);
-            this.player.setVelocity(0);
         }
     }
 }
