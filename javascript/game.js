@@ -3,6 +3,7 @@ class S0 extends Phaser.Scene {
         super('s0');
     }
     create() {
+    
     this.cameras.main.setBackgroundColor('#000000');
 
     this.textObject0 = this.add.text(
@@ -52,6 +53,9 @@ class Title extends Phaser.Scene {
         this.mutevalue = data.mutevalue;
     } 
     create() {
+
+        this.cameras.main.fadeIn(3000);
+
         this.shader = this.add.shader('Tunnel', 1050, 540, 2100, 1080, [ 'theshader' ]);
         this.shader.setInteractive();
         this.cameras.main.setBackgroundColor('#add8e6')
