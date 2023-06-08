@@ -10,6 +10,7 @@ class Prefab extends Phaser.Scene
         this.load.image('ground', 'assets/ground.png');
         this.load.atlas('player', 'assets/player/playersheet.png', 'JSON/player.json');
         this.load.atlas('slug', 'assets/slug.png', 'JSON/slug.json');
+        this.load.atlas('deathslug', 'assets/mean_slug.png', 'JSON/mean_slug.json');
         this.load.atlas('bird', 'assets/bird.png', 'JSON/bird.json');
         //this.load.image('life', 'assets/player/player.png');
 
@@ -17,7 +18,7 @@ class Prefab extends Phaser.Scene
         this.load.image('background', 'assets/dark back.png');
         this.load.image('obstacle', 'assets/circle.png');
         this.load.image('tree', 'assets/obstacles/Tree.png');
-        this.load.image('wall', 'assets/TempDeathWall.png');
+        //this.load.image('wall', 'assets/TempDeathWall.png');
         this.load.image('star', 'assets/star.png');
         this.load.audio('blip', 'assets/blip.mp3');
         this.load.audio('jumpSound', 'assets/jump.mp3');
@@ -43,8 +44,16 @@ class Prefab extends Phaser.Scene
         this.platforms.create(300, 1050, 'ground').setScale(1).refreshBody();
         this.platforms.create(2400, 1050, 'ground').setScale(1).refreshBody();
         //Temporary death wall, will be giant monster slug eventually
-        this.wall = this.platforms.create(100, 770, 'wall').refreshBody(); 
-        
+        //this.wall = this.platforms.create(100, 770, 'wall').refreshBody(); 
+        //evil slug animation
+        this.anims.create({
+            key: 'meanslugrunning',
+            frames: this.anims.generateFrameNames('deathslug', {
+                prefix: 'meanslug', start: 1, end: 3
+            }), 
+            frameRate: 10,
+            repeat: -1,
+        });
         // running animation
         this.anims.create({
             key: 'running',
@@ -94,7 +103,11 @@ class Prefab extends Phaser.Scene
             frameRate: 10,
             repeat: -1,
         });
-
+        //evil slug
+        this.wall= this.physics.add.sprite(100, 770, 'deathslug')
+            //.setImmovable();
+        this.wall.anims.play('meanslugrunning');
+        this.physics.add.collider(this.wall, this.platforms)
         // player
         this.player = this.physics.add.sprite(400, 785, 'player')
             .setScale(1.5)  
@@ -194,13 +207,14 @@ class Prefab extends Phaser.Scene
     }
 
     jump ()
-    {   if(this.mutevalue == false){
-            this.jumpSound.play();
-        }
+    { 
         this.player.anims.play('jumping');
         
         if(this.player.body.touching.down)
         {
+            if(this.mutevalue == false){
+                this.jumpSound.play();
+            }
             this.player.setVelocityY(parseInt(this.config["jumpvel"]));
             console.log(this.config["jumpvel"])
             this.recenttime = this.game.getTime();
@@ -208,6 +222,9 @@ class Prefab extends Phaser.Scene
         else if ((this.player.body.touching.down == false) && ((this.game.getTime() - this.recenttime) > 500) && this.player.airjump){
             this.player.airjump = false;
             this.player.setVelocityY(parseInt(this.config["jumpvel"]));
+            if(this.mutevalue == false){
+                this.jumpSound.play();
+            }
         }
 
         this.time.delayedCall(1500, () => {
