@@ -22,6 +22,10 @@ class Prefab extends Phaser.Scene
         this.load.image('star', 'assets/star.png');
         this.load.audio('blip', 'assets/blip.mp3');
         this.load.audio('jumpSound', 'assets/jump.mp3');
+
+        this.load.image('audio1', 'assets/audio.png');
+        this.load.image('mute1', 'assets/mute.png');
+        
     }
     init(data) {
         this.mutevalue = data.mutevalue;
@@ -103,6 +107,7 @@ class Prefab extends Phaser.Scene
             frameRate: 10,
             repeat: -1,
         });
+
         //evil slug
         this.wall= this.physics.add.sprite(100, 770, 'deathslug')
             //.setImmovable();
@@ -147,9 +152,10 @@ class Prefab extends Phaser.Scene
 
     collectSlug (player, slug)
     {   const beep = this.sound.add('blip', { loop: false });
-        if(this.mutevalue == false){
+        beep.play();
+        /*if(this.mutevalue == false){
             beep.play();
-        }
+        }*/
         slug.disableBody(true, true);
         
         // updates
@@ -212,9 +218,11 @@ class Prefab extends Phaser.Scene
         
         if(this.player.body.touching.down)
         {
+            /*
             if(this.mutevalue == false){
                 this.jumpSound.play();
-            }
+            }*/
+            this.jumpSound.play();
             this.player.setVelocityY(parseInt(this.config["jumpvel"]));
             console.log(this.config["jumpvel"])
             this.recenttime = this.game.getTime();
@@ -222,9 +230,11 @@ class Prefab extends Phaser.Scene
         else if ((this.player.body.touching.down == false) && ((this.game.getTime() - this.recenttime) > 500) && this.player.airjump){
             this.player.airjump = false;
             this.player.setVelocityY(parseInt(this.config["jumpvel"]));
-            if(this.mutevalue == false){
+            
+            this.jumpSound.play();
+            /*if(this.mutevalue == false){
                 this.jumpSound.play();
-            }
+            }*/
         }
 
         this.time.delayedCall(1500, () => {

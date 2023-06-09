@@ -295,9 +295,11 @@ class SceneOne extends Prefab
         super.preload();
         this.load.audio('bg', 'assets/bg_music.wav');
     }
+
     init(data) {
         this.mutevalue = data.mutevalue;
     } 
+
     create () 
     {
         super.create();
@@ -307,6 +309,7 @@ class SceneOne extends Prefab
         this.treespawn = false;
 
         const backgroundMusic = this.sound.add('bg', { loop: true });
+
         if(this.mutevalue == false){
             backgroundMusic.play();
         }
@@ -345,6 +348,7 @@ class endScreen extends Phaser.Scene{
 
         const backgroundMusic = this.sound.add('end', { loop: true });
         backgroundMusic.play();
+        
     }
 }
 
