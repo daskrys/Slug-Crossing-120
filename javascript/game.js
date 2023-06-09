@@ -54,6 +54,25 @@ class Title extends Phaser.Scene {
     } 
     create() {
 
+        ///full screen button/////
+        const fullText = this.add.text(50, 50, 'full screen', { fontSize: '50px', fill: '#24487a' });
+        fullText.setDepth(1);
+        fullText.setInteractive();
+        fullText.on('pointerover', () => {
+            fullText.setStyle({ fill: '#ff0' });
+        });
+        fullText.on('pointerout', () => {
+            fullText.setStyle({ fill: '#24487a' });
+        });
+        fullText.on('pointerdown', () => {
+            if (this.scale.isFullscreen) {
+                this.scale.stopFullscreen();
+            } else {
+                this.scale.startFullscreen();
+            }
+        });
+        /////////////////////////////
+        
         this.cameras.main.fadeIn(3000);
 
         this.shader = this.add.shader('Tunnel', 1050, 540, 2100, 1080, [ 'theshader' ]);
