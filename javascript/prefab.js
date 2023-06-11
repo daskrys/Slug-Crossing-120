@@ -12,13 +12,11 @@ class Prefab extends Phaser.Scene
         this.load.atlas('slug', 'assets/slug.png', 'JSON/slug.json');
         this.load.atlas('deathslug', 'assets/mean_slug.png', 'JSON/mean_slug.json');
         this.load.atlas('bird', 'assets/bird.png', 'JSON/bird.json');
-        //this.load.image('life', 'assets/player/player.png');
 
-        // place holders below for testing
         this.load.image('background', 'assets/dark back.png');
         this.load.image('obstacle', 'assets/circle.png');
         this.load.image('tree', 'assets/obstacles/Tree.png');
-        //this.load.image('wall', 'assets/TempDeathWall.png');
+
         this.load.image('star', 'assets/star.png');
         this.load.audio('blip', 'assets/blip.mp3');
         this.load.audio('jumpSound', 'assets/jump.mp3');
@@ -34,22 +32,19 @@ class Prefab extends Phaser.Scene
     {
         this.jumpSound = this.sound.add('jumpSound');
         this.config = {
-            "jumpvel": "-200",
+            "jumpvel": "-500",
             "objspd": "-80"
 
         }
-        // background
-        //this.cameras.main.setBackgroundColor('#7393B3');
+       
         this.background = this.add.tileSprite(0, 0, this.sys.game.config.width, this.sys.game.config.height, 'background');
         this.background.setOrigin(0, 0);
 
-        //platforms
-        this.platforms = this.physics.add.staticGroup();
-        this.platforms.create(300, 1050, 'ground').setScale(1).refreshBody();
-        this.platforms.create(2400, 1050, 'ground').setScale(1).refreshBody();
-        //Temporary death wall, will be giant monster slug eventually
-        //this.wall = this.platforms.create(100, 770, 'wall').refreshBody(); 
-        //evil slug animation
+      
+        this.platforms = this.physics.add.staticGroup()
+        this.platforms.create(300, 1250, 'ground').setScale(2).refreshBody();
+        this.theground = this.add.tileSprite(1000, 1875, this.sys.game.config.width, this.sys.game.config.height, 'ground').setScale(2);
+        //this.platforms.create(2400, 1050, 'ground').setScale(1).refreshBody();
         this.anims.create({
             key: 'meanslugrunning',
             frames: this.anims.generateFrameNames('deathslug', {
@@ -58,7 +53,7 @@ class Prefab extends Phaser.Scene
             frameRate: 10,
             repeat: -1,
         });
-        // running animation
+
         this.anims.create({
             key: 'running',
             frames: this.anims.generateFrameNames('player', {
@@ -68,7 +63,7 @@ class Prefab extends Phaser.Scene
             repeat: -1,
         });
 
-        // jumping animation
+
         this.anims.create({
             key: 'jumping',
             frames: this.anims.generateFrameNames('player', {
@@ -78,7 +73,7 @@ class Prefab extends Phaser.Scene
             repeat: -1,
         });
 
-        // rolling animation
+
         this.anims.create({
             key: 'rolling',
             frames: this.anims.generateFrameNames('player', {
@@ -109,14 +104,16 @@ class Prefab extends Phaser.Scene
         });
 
         //evil slug
-        this.wall= this.physics.add.sprite(100, 770, 'deathslug')
-            //.setImmovable();
+        this.wall= this.physics.add.sprite(150, 690, 'deathslug')
+            .setScale(3);    
+        //.setImmovable();
         this.wall.anims.play('meanslugrunning');
         this.physics.add.collider(this.wall, this.platforms)
         // player
-        this.player = this.physics.add.sprite(400, 785, 'player')
-            .setScale(1.5)  
+        this.player = this.physics.add.sprite(800, 655, 'player')
+            .setScale(4.5)  
             .setSize(20, 40)
+            .setDepth(3);
         this.player.body.setOffset(8, 8)
         this.player.curspeed = 0;
             
@@ -125,17 +122,17 @@ class Prefab extends Phaser.Scene
         this.physics.add.overlap(this.player, this.wall, this.endGame, null, this);
         this.player.anims.play('running');
 
-        //obstacle test
+ 
         this.obstacle = this.physics.add.group();
         
-        // slug collectable
+
         this.slugs = this.physics.add.group();
 
-        // jump 
+
         this.input.on('pointerdown', this.jump, this);
         this.player.airjump = false;
 
-        //hud things will probably need rework
+
         this.score = 0;
         this.scoreBox = this.add.text(20, 25, 'SCORE: 0', { fontFamily: 'Times', fontSize: '40px', fill: '#FFFFFF' });
 
@@ -153,9 +150,7 @@ class Prefab extends Phaser.Scene
     collectSlug (player, slug)
     {   const beep = this.sound.add('blip', { loop: false });
         beep.play();
-        /*if(this.mutevalue == false){
-            beep.play();
-        }*/
+   
         slug.disableBody(true, true);
         
         // updates
@@ -170,33 +165,27 @@ class Prefab extends Phaser.Scene
             .setImmovable(true)
             .setCircle(256, 0, 0);
         this.physics.add.collider(this.player, this.obstacle); 
-        obstacle.setGravityY(-300).setGravityX(parseInt(this.config["objspd"])).setScale(0.075);
-        //obstacle.anims.play('birdfly'); // plays animation for bird
-        //this.physics.add.overlap(this.player, obstacle, this.hit, null, this);
-
+        obstacle.setGravityY(-1000).setGravityX(parseInt(this.config["objspd"])).setScale(0.075);
+       
         this.time.delayedCall(Phaser.Math.Between(5000, 10000), this.spawnObstacle, [], this);
     }
     spawnTree(){
-        this.tree = this.physics.add.sprite(2320, 755, 'tree')
+        this.tree = this.physics.add.sprite(2320, 605, 'tree')
             .setImmovable(true)
-            .setGravityY(-300)
+            .setGravityY(-1000)
             .setVelocityX(-500)
-            .setScale(2)
+            .setScale(6)
             this.time.delayedCall(2000, this.spawnTree, [], this);
     }
 
     spawnSlug ()
     {
-        let slug = this.slugs.create(1000, 802, 'slug');
-        slug.setGravityY(-300).setGravityX(-10).setScale(0.8);
+        let slug = this.slugs.create(2320, 756, 'slug');
+        slug.setGravityY(-1000).setGravityX(-10).setScale(1.6);
         slug.anims.play('slugwalk');
         this.physics.add.overlap(this.player, slug, this.collectSlug, null, this);
 
-        /*this.slug = this.physics.add.sprite(2320, 310, 'slug')
-                .setImmovable(true)
-                .setGravityY(-300)
-                .setGravityX(-10);
-        this.slug.anims.play('slugwalk'); */
+
         this.time.delayedCall(Phaser.Math.Between(5000, 10000), this.spawnSlug, [], this);
     }
 
@@ -209,7 +198,7 @@ class Prefab extends Phaser.Scene
             this.player.anims.play('running');
         });
 
-        //this.loseLife();
+
     }
 
     jump ()
@@ -218,10 +207,7 @@ class Prefab extends Phaser.Scene
         
         if(this.player.body.touching.down)
         {
-            /*
-            if(this.mutevalue == false){
-                this.jumpSound.play();
-            }*/
+
             this.jumpSound.play();
             this.player.setVelocityY(parseInt(this.config["jumpvel"]));
             console.log(this.config["jumpvel"])
@@ -232,9 +218,7 @@ class Prefab extends Phaser.Scene
             this.player.setVelocityY(parseInt(this.config["jumpvel"]));
             
             this.jumpSound.play();
-            /*if(this.mutevalue == false){
-                this.jumpSound.play();
-            }*/
+
         }
 
         this.time.delayedCall(1500, () => {
@@ -253,6 +237,7 @@ class Prefab extends Phaser.Scene
         }
 
         this.background.tilePositionX += 1;
+        this.theground.tilePositionX += 1;
         if(this.physics.collide(this.player, this.obstacle) == true){
             this.player.curspeed = 0;
             this.player.setVelocityX(this.player.curspeed);

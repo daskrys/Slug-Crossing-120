@@ -7,23 +7,21 @@ class S0 extends Phaser.Scene {
     this.cameras.main.setBackgroundColor('#000000');
 
     this.textObject0 = this.add.text(
-            735, //x
-            350,//y
-            "click to progress", //text
+            735, 
+            350,
+            "click to progress", 
             {
                 font: "100px Arial",
                 color: "#FFFFFF",
                 align: "center"
             } //style
         );
-    //textObject0.setAlpha(1);
     this.tweens.add({
         targets: this.textObject0,
         alpha:0,
         duration: 2000,
         repeat: -1,
     });
-    //textObject0.setAlpha(1);
     this.tweens.add({
         targets: this.textObject8,
         alpha:0,
@@ -54,7 +52,6 @@ class Title extends Phaser.Scene {
     } 
     create() {
 
-        ///full screen button/////
         const fullText = this.add.text(50, 50, 'full screen', { fontSize: '50px', fill: '#24487a' });
         fullText.setDepth(1);
         fullText.setInteractive();
@@ -71,7 +68,6 @@ class Title extends Phaser.Scene {
                 this.scale.startFullscreen();
             }
         });
-        /////////////////////////////
         
         this.cameras.main.fadeIn(3000);
 
@@ -83,13 +79,11 @@ class Title extends Phaser.Scene {
         if(this.mutevalue == false){
             backgroundMusic.play();
         }
-        //options button//
         this.options = this.add.text(1600, 940, 'options', { fontSize: '100px', fill: '#24487a' }).setInteractive()
         this.options.on('pointerdown', () => {
             backgroundMusic.stop()
             this.scene.start('options', { mutevalue: this.mutevalue })
         });
-        ////credits button//////
         const creditsText = this.add.text(820, 950, 'credits', { fontSize: '100px', fill: '#24487a' });
         creditsText.setDepth(1);
         creditsText.setInteractive();
@@ -115,7 +109,6 @@ class Title extends Phaser.Scene {
             });
 
 
-        ///play button////
         const playText = this.add.text(900, 800, 'play', { fontSize: '100px', fill: '#24487a' });
         playText.setDepth(1);
         playText.setInteractive();
@@ -163,7 +156,6 @@ class Title extends Phaser.Scene {
         });
 
         const title = this.add.image(500, -100, 'title');
-        //title.setScale(10); Doing this made it blurry, so I made a nonblurry title 10x the size
         title.setOrigin(0);
         title.setDepth(0);
         title.setInteractive();
@@ -259,9 +251,6 @@ class Credits extends Phaser.Scene {
         backText.on('pointerdown', () => {
             this.scene.start('title', { mutevalue: this.mutevalue });
         });
-        //////////////////////////
-
-        ////text//////
         const colText = this.add.text(50, 200, 'collaborators:\nProduction Lead:Kayla Garcia,\n\nTesting Lead:Christian Perez,\n\nTesting Lead:Jalen Suwa,\n\nTechnology Lead:Chase Houske ', { fontSize: '50px', fill: '#24487a' });
         colText.setDepth(1);
 
@@ -344,7 +333,7 @@ class endScreen extends Phaser.Scene{
         this.add.text(800, 540, 'You Lose!\nSCORE: ' + this.score, { fontFamily: 'Times', fontSize: '80px', fill: '#000000' });
 
         const sceneOne = this.scene.get('sceneone');
-        sceneOne.sound.stopAll(); // Stop all sounds from SceneOne
+        sceneOne.sound.stopAll(); 
 
         const backgroundMusic = this.sound.add('end', { loop: true });
         backgroundMusic.play();
@@ -366,8 +355,8 @@ let config = {
     physics: {
         default: 'arcade',
         arcade: {
-            gravity: {y: 300},
-            //debug: true
+            gravity: {y: 1000},
+            debug: true
         }
     },
 }
