@@ -1,5 +1,6 @@
 class Prefab extends Phaser.Scene 
 {
+    
     constructor(key)
     {
         super(key);
@@ -19,22 +20,19 @@ class Prefab extends Phaser.Scene
         this.load.image('rock1', 'assets/obstacles/rock1.png');
         this.load.image('rock2', 'assets/obstacles/rock2.png');
         this.load.image('rock3', 'assets/obstacles/rock3.png');
-        this.load.image('star', 'assets/star.png');
+        this.load.image('star', 'assets/slug2.png');
         this.load.audio('blip', 'assets/score.wav');
         this.load.audio('jumpSound', 'assets/jump.mp3');
 
         this.load.image('audio1', 'assets/audio.png');
         this.load.image('mute1', 'assets/mute.png');
+        this.load.json('theconfig', 'JSON/config.json')
         
     }
     create () 
     {   
         this.jumpSound = this.sound.add('jumpSound');
-        this.config = {
-            "jumpvel": "-500",
-            "objspd": "-240",
-            "slugvel": "-20"
-        }
+        this.config = this.cache.json.get('theconfig');
         this.background = this.add.tileSprite(0, 0, this.sys.game.config.width, this.sys.game.config.height, 'background');
         this.background.setOrigin(0, 0);
 
