@@ -169,15 +169,24 @@ class Prefab extends Phaser.Scene
             .setImmovable(true)
             //.setCircle(256, 0, 0);
         this.physics.add.collider(this.player, this.obstacle); 
-        this.theobstacle.setGravityY(-1000).setGravityX(parseInt(this.config["objspd"])).setScale(0.075);
-       
-        this.time.delayedCall(Phaser.Math.Between(5000, 10000), this.spawnObstacle, [], this);
+        console.log(this.score)
+        this.theobstacle.setGravityY(-1000).setVelocityX(parseInt(this.config["objspd"])).setScale(0.075);
+        if(this.score > 15){
+            this.time.delayedCall(Phaser.Math.Between(500, 1000), this.spawnObstacle, [], this);
+            console.log('yes')
+        }
+        else if (this.score > 5){
+            this.time.delayedCall(Phaser.Math.Between(1000, 2500), this.spawnObstacle, [], this);
+        }
+        else{
+            this.time.delayedCall(Phaser.Math.Between(2500, 4000), this.spawnObstacle, [], this);
+        }
     }
     spawnTree(){
-        this.tree = this.physics.add.sprite(2320, 605, 'tree')
+        this.tree = this.physics.add.sprite(2750, 605, 'tree')
             .setImmovable(true)
             .setGravityY(-1000)
-            .setVelocityX(-500)
+            .setVelocityX(parseInt(this.config["objspd"]))
             .setScale(6)
             this.time.delayedCall(2000, this.spawnTree, [], this);
     }
@@ -255,6 +264,10 @@ class Prefab extends Phaser.Scene
         });
     }   
     endGame(player, wall){
+        if(this.score >= 5){
+            this.config["objspd"] = parseInt(this.config["objspd"]) / 2;
+            this.config["slugvel"] = parseInt(this.config["slugvel"]) / 2;
+        }
         this.scene.start('endscreen', { score: this.score, mutevalue: this.mutevalue, mutevalue2: this.mutevalue2 })
         
     }
@@ -274,12 +287,12 @@ class Prefab extends Phaser.Scene
         }
 
         this.background.tilePositionX += 1;
-        this.theground.tilePositionX += 1;
+        this.theground.tilePositionX += 2.5;
         if(this.physics.collide(this.player, this.obstacle) == true){
             this.player.curspeed = 0;
             this.player.setVelocityX(this.player.curspeed);
         }
-        if((this.player.x < 800) && (this.player.body.touching.down)){
+        if((this.player.x < 800)){
             this.player.setVelocityX(this.player.curspeed)
             this.player.curspeed+= 0.2;
         }
