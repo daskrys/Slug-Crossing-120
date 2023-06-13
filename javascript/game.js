@@ -80,6 +80,9 @@ class Title extends Phaser.Scene {
         if(this.mutevalue == false){
             backgroundMusic.play();
         }
+        else{
+            this.add.text(1250, 25, 'Background Music Plays', { fontFamily: 'Times', fontSize: '80px', fill: '#000000' });
+        }
         this.options = this.add.text(1600, 940, 'options', { fontSize: '100px', fill: '#24487a' }).setInteractive()
         this.options.on('pointerdown', () => {
             backgroundMusic.stop()
@@ -328,6 +331,9 @@ class SceneOne extends Prefab
         if(this.mutevalue == false){
             backgroundMusic.play();
         }
+        else{
+            this.add.text(1250, 25, 'Background Music Plays', { fontFamily: 'Times', fontSize: '80px', fill: '#000000' });
+        }
         
     }
 
@@ -358,7 +364,7 @@ class endScreen extends Phaser.Scene{
 
     create(){
         this.cameras.main.setBackgroundColor('#FFF200')
-        this.add.text(800, 540, 'You Lose!\nSCORE: ' + this.score, { fontFamily: 'Times', fontSize: '80px', fill: '#000000' });
+        this.add.text(900, 440, 'You Lose!\nSCORE: ' + this.score, { fontFamily: 'Times', fontSize: '80px', fill: '#000000' });
 
         const sceneOne = this.scene.get('sceneone');
         sceneOne.sound.stopAll(); 
@@ -367,7 +373,10 @@ class endScreen extends Phaser.Scene{
         if(this.mutevalue == false){
             backgroundMusic.play();
         }
-        this.playagain = this.add.text(800, 840, 'Play Again ', { fontFamily: 'Times', fontSize: '80px', fill: '#000000' }).setInteractive();
+        else{
+            this.add.text(1450, 25, 'Loss Music Plays', { fontFamily: 'Times', fontSize: '80px', fill: '#000000' });
+        }
+        this.playagain = this.add.text(900, 740, 'Play Again ', { fontFamily: 'Times', fontSize: '80px', fill: '#000000' }).setInteractive();
         this.playagain.on('pointerdown', () => {
             backgroundMusic.stop()
             this.scene.start('sceneone', { mutevalue: this.mutevalue, mutevalue2: this.mutevalue2 })
@@ -390,7 +399,7 @@ let config = {
         default: 'arcade',
         arcade: {
             gravity: {y: 1000},
-            debug: true
+            //debug: true
         }
     },
 }

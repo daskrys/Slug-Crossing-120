@@ -28,7 +28,7 @@ class Prefab extends Phaser.Scene
         
     }
     create () 
-    {
+    {   
         this.jumpSound = this.sound.add('jumpSound');
         this.config = {
             "jumpvel": "-500",
@@ -40,7 +40,7 @@ class Prefab extends Phaser.Scene
 
       
         this.platforms = this.physics.add.staticGroup()
-        this.platforms.create(300, 1250, 'ground').setScale(2).refreshBody();
+        this.platforms.create(300, 1255, 'ground').setScale(2).refreshBody();
         this.theground = this.add.tileSprite(1000, 1875, this.sys.game.config.width, this.sys.game.config.height, 'ground').setScale(2);
         //this.platforms.create(2400, 1050, 'ground').setScale(1).refreshBody();
         this.anims.create({
@@ -147,7 +147,14 @@ class Prefab extends Phaser.Scene
 
     collectSlug (player, slug)
     {   const beep = this.sound.add('blip', { loop: false });
-        beep.play();
+        if(this.mutevalue2 == false){
+            beep.play();
+        }
+        else{
+            this.temptext3 = this.add.text(1650, 225, 'Blip noise', { fontFamily: 'Times', fontSize: '80px', fill: '#000000' });
+            this.time.delayedCall(500, () => {this.temptext3.destroy()});
+            
+        }
    
         slug.disableBody(true, true);
         
@@ -209,6 +216,18 @@ class Prefab extends Phaser.Scene
             if(this.mutevalue2 == false){
                 this.jumpSound.play();
             }
+            else{
+                if(this.mutevalue == false){
+                    this.temptext = this.add.text(1650, 25, 'Player jumps', { fontFamily: 'Times', fontSize: '80px', fill: '#000000' });
+                    this.time.delayedCall(500, () => {this.temptext.destroy()});
+                    
+                }
+                else{
+                    this.temptext = this.add.text(1650, 125, 'Player jumps', { fontFamily: 'Times', fontSize: '80px', fill: '#000000' });
+                    this.time.delayedCall(500, () => {this.temptext.destroy()});
+                    
+                }
+            }
             this.player.setVelocityY(parseInt(this.config["jumpvel"]));
             this.recenttime = this.game.getTime();
         }
@@ -217,6 +236,18 @@ class Prefab extends Phaser.Scene
             this.player.setVelocityY(parseInt(this.config["jumpvel"]));
             if(this.mutevalue2 == false){
                 this.jumpSound.play();
+            }
+            else{
+                if(this.mutevalue == false){
+                    this.temptext2 = this.add.text(1400, 25, 'Player double jumps', { fontFamily: 'Times', fontSize: '80px', fill: '#000000' });
+                    this.time.delayedCall(500, () => {this.temptext2.destroy()});
+                    
+                }
+                else{
+                    this.temptext2 = this.add.text(1400, 125, 'Player double jumps', { fontFamily: 'Times', fontSize: '80px', fill: '#000000' });
+                    this.time.delayedCall(500, () => {this.temptext2.destroy()});
+                    
+                }
             }
 
         }
