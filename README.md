@@ -8,20 +8,20 @@ https://chouske.github.io/Final-Project/cinematics.html <br>
 
 [theme] The concept of "nearby in space, but close in time" was explored through the choice of setting, which is situated on Earth but in a distant future. In this intriguing timeframe, the player must contend with the relentless pursuit of mutated slugs. <br>
 
-[selectable requirements] 
-Data-driven experience progression
-Complete closed captioning
-Procedural graphics
+[selectable requirements] <br>
+Data-driven experience progression <br>
+Complete closed captioning <br>
+Procedural graphics <br>
 
-[contributor credits]
-Jalen Suwa - Testing Lead
-Chase Houske - Technology Lead
-Christian Perez - Testing Lead
-Kayla Garcia - Production Lead
+[contributor credits] <br>
+Jalen Suwa - Testing Lead <br>
+Chase Houske - Technology Lead <br>
+Christian Perez - Testing Lead <br>
+Kayla Garcia - Production Lead <br>
 
-[asset credits]
-All Art including backgrounds and sprites where created by Kayla Garcia using Photoshop,Canva,and Pixilart.com
+[asset credits] <br>
+All Art including backgrounds and sprites where created by Kayla Garcia using Photoshop,Canva,and Pixilart.com <br>
 
-All Music and Sound effects were created by Jalen Suwa using TheLovelyComposer and BFXR
+All Music and Sound effects were created by Jalen Suwa using TheLovelyComposer and BFXR <br>
 
-Main Menu Shader was done by Chase Houske
+Main Menu Shader was done by Chase Houske <br>
