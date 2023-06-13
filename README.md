@@ -6,7 +6,7 @@ https://chouske.github.io/Final-Project/core-gameplay.html <br>
 https://chouske.github.io/Final-Project/scene-flow.html <br>
 https://chouske.github.io/Final-Project/cinematics.html <br>
 
-[theme] The concept of "nearby in space, but close in time" was explored through the choice of setting, which is situated on Earth but in a distant future. In this intriguing timeframe, the player must contend with the relentless pursuit of mutated slugs. <br>
+[theme] The concept of "nearby in space, but close in time" was explored through the choice of setting, which is situated right here at UCSC but in a distant future. In this intriguing timeframe, the player must contend with the relentless pursuit of mutated slugs. <br>
 
 [selectable requirements] <br>
 Data-driven experience progression <br>
