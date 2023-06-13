@@ -322,6 +322,7 @@ class endScreen extends Phaser.Scene{
 
     init(data) {
         this.score = data.score;
+        this.mutevalue = data.mutevalue;
     }
 
     constructor(){
@@ -336,8 +337,14 @@ class endScreen extends Phaser.Scene{
         sceneOne.sound.stopAll(); 
 
         const backgroundMusic = this.sound.add('end', { loop: true });
-        backgroundMusic.play();
-        
+        if(this.mutevalue == false){
+            backgroundMusic.play();
+        }
+        this.playagain = this.add.text(800, 840, 'Play Again ', { fontFamily: 'Times', fontSize: '80px', fill: '#000000' }).setInteractive();
+        this.playagain.on('pointerdown', () => {
+            backgroundMusic.stop()
+            this.scene.start('sceneone', { mutevalue: this.mutevalue })
+        });
     }
 }
 

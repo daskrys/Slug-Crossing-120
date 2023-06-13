@@ -16,7 +16,9 @@ class Prefab extends Phaser.Scene
         this.load.image('background', 'assets/dark back.png');
         this.load.image('obstacle', 'assets/circle.png');
         this.load.image('tree', 'assets/obstacles/Tree.png');
-
+        this.load.image('rock1', 'assets/obstacles/rock1.png');
+        this.load.image('rock2', 'assets/obstacles/rock2.png');
+        this.load.image('rock3', 'assets/obstacles/rock3.png');
         this.load.image('star', 'assets/star.png');
         this.load.audio('blip', 'assets/blip.mp3');
         this.load.audio('jumpSound', 'assets/jump.mp3');
@@ -33,10 +35,9 @@ class Prefab extends Phaser.Scene
         this.jumpSound = this.sound.add('jumpSound');
         this.config = {
             "jumpvel": "-500",
-            "objspd": "-80"
-
+            "objspd": "-240",
+            "slugvel": "-20"
         }
-       
         this.background = this.add.tileSprite(0, 0, this.sys.game.config.width, this.sys.game.config.height, 'background');
         this.background.setOrigin(0, 0);
 
@@ -143,7 +144,7 @@ class Prefab extends Phaser.Scene
             blendMode: 'ADD',
             frequency: -1
         });
-        
+        this.changecount = 0;
     }
     
 
@@ -160,12 +161,13 @@ class Prefab extends Phaser.Scene
     }
 
     spawnObstacle ()
-    {
-        let obstacle = this.obstacle.create(1750, 810, 'obstacle') // breaks if i change to bird
+    {   this.whichobj = Math.floor(Math.random() * 3);
+        this.myarray = ['rock1', 'rock2', 'rock3']
+        this.theobstacle = this.obstacle.create(2750, 765, this.myarray[this.whichobj]) // breaks if i change to bird
             .setImmovable(true)
-            .setCircle(256, 0, 0);
+            //.setCircle(256, 0, 0);
         this.physics.add.collider(this.player, this.obstacle); 
-        obstacle.setGravityY(-1000).setGravityX(parseInt(this.config["objspd"])).setScale(0.075);
+        this.theobstacle.setGravityY(-1000).setGravityX(parseInt(this.config["objspd"])).setScale(0.075);
        
         this.time.delayedCall(Phaser.Math.Between(5000, 10000), this.spawnObstacle, [], this);
     }
@@ -180,10 +182,10 @@ class Prefab extends Phaser.Scene
 
     spawnSlug ()
     {
-        let slug = this.slugs.create(2320, 756, 'slug');
-        slug.setGravityY(-1000).setGravityX(-10).setScale(1.6);
-        slug.anims.play('slugwalk');
-        this.physics.add.overlap(this.player, slug, this.collectSlug, null, this);
+        this.slug = this.slugs.create(2320, 756, 'slug');
+        this.slug.setGravityY(-1000).setGravityX(parseInt(this.config["slugvel"])).setScale(1.6);
+        this.slug.anims.play('slugwalk');
+        this.physics.add.overlap(this.player, this.slug, this.collectSlug, null, this);
 
 
         this.time.delayedCall(Phaser.Math.Between(5000, 10000), this.spawnSlug, [], this);
@@ -207,17 +209,18 @@ class Prefab extends Phaser.Scene
         
         if(this.player.body.touching.down)
         {
-
-            this.jumpSound.play();
+            if(this.mutevalue == false){
+                this.jumpSound.play();
+            }
             this.player.setVelocityY(parseInt(this.config["jumpvel"]));
-            console.log(this.config["jumpvel"])
             this.recenttime = this.game.getTime();
         }
         else if ((this.player.body.touching.down == false) && ((this.game.getTime() - this.recenttime) > 500) && this.player.airjump){
             this.player.airjump = false;
             this.player.setVelocityY(parseInt(this.config["jumpvel"]));
-            
-            this.jumpSound.play();
+            if(this.mutevalue == false){
+                this.jumpSound.play();
+            }
 
         }
 
@@ -226,11 +229,19 @@ class Prefab extends Phaser.Scene
         });
     }   
     endGame(player, wall){
-        this.scene.start('endscreen', { score: this.score })
+        this.scene.start('endscreen', { score: this.score, mutevalue: this.mutevalue })
         
     }
     update () 
-    {   
+    {   if((this.score == 5) && (this.changecount == 0)){
+        //console.log("old" + this.config["objspd"])
+        this.config["objspd"] = parseInt(this.config["objspd"]) * 2;
+        //console.log("new" + this.config["objspd"])
+        this.config["slugvel"] = parseInt(this.config["slugvel"]) * 2;
+        this.changecount = this.changecount + 1;
+        this.slug.setGravityX(parseInt(this.config["slugvel"]))
+        this.theobstacle.setGravityX(parseInt(this.config["objspd"]))
+    }
         if(this.player.body.touching.down)
         {
             this.player.airjump = true;
@@ -242,7 +253,7 @@ class Prefab extends Phaser.Scene
             this.player.curspeed = 0;
             this.player.setVelocityX(this.player.curspeed);
         }
-        if(this.player.x < 400){
+        if((this.player.x < 800) && (this.player.body.touching.down)){
             this.player.setVelocityX(this.player.curspeed)
             this.player.curspeed+= 0.2;
         }
