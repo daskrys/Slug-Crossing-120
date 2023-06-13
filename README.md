@@ -9,9 +9,9 @@ https://chouske.github.io/Final-Project/cinematics.html <br>
 [theme] The concept of "nearby in space, but close in time" was explored through the choice of setting, which is situated right here at UCSC but in a distant future. In this intriguing timeframe, the player must contend with the relentless pursuit of mutated slugs. <br>
 
 [selectable requirements] <br>
-Data-driven experience progression <br>
-Complete closed captioning <br>
-Procedural graphics <br>
+Data-driven experience progression: We read from a json file to configure object speeds <br>
+Complete closed captioning: Sound effects for everything but button clicks as the scene immediately changes anyways on button clicks <br>
+Procedural graphics: We use a shader on the title screen <br>
 
 [contributor credits] <br>
 Jalen Suwa - Testing Lead <br>
