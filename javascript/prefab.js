@@ -20,16 +20,13 @@ class Prefab extends Phaser.Scene
         this.load.image('rock2', 'assets/obstacles/rock2.png');
         this.load.image('rock3', 'assets/obstacles/rock3.png');
         this.load.image('star', 'assets/star.png');
-        this.load.audio('blip', 'assets/blip.mp3');
+        this.load.audio('blip', 'assets/score.wav');
         this.load.audio('jumpSound', 'assets/jump.mp3');
 
         this.load.image('audio1', 'assets/audio.png');
         this.load.image('mute1', 'assets/mute.png');
         
     }
-    init(data) {
-        this.mutevalue = data.mutevalue;
-    } 
     create () 
     {
         this.jumpSound = this.sound.add('jumpSound');
@@ -209,7 +206,7 @@ class Prefab extends Phaser.Scene
         
         if(this.player.body.touching.down)
         {
-            if(this.mutevalue == false){
+            if(this.mutevalue2 == false){
                 this.jumpSound.play();
             }
             this.player.setVelocityY(parseInt(this.config["jumpvel"]));
@@ -218,7 +215,7 @@ class Prefab extends Phaser.Scene
         else if ((this.player.body.touching.down == false) && ((this.game.getTime() - this.recenttime) > 500) && this.player.airjump){
             this.player.airjump = false;
             this.player.setVelocityY(parseInt(this.config["jumpvel"]));
-            if(this.mutevalue == false){
+            if(this.mutevalue2 == false){
                 this.jumpSound.play();
             }
 
@@ -229,7 +226,7 @@ class Prefab extends Phaser.Scene
         });
     }   
     endGame(player, wall){
-        this.scene.start('endscreen', { score: this.score, mutevalue: this.mutevalue })
+        this.scene.start('endscreen', { score: this.score, mutevalue: this.mutevalue, mutevalue2: this.mutevalue2 })
         
     }
     update () 

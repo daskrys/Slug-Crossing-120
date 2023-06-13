@@ -29,7 +29,7 @@ class S0 extends Phaser.Scene {
         repeat: -1,
     });
 
-    this.input.on('pointerdown', () => this.scene.start('title', { mutevalue: false }));
+    this.input.on('pointerdown', () => this.scene.start('title', { mutevalue: false, mutevalue2: false }));
     }
 }
 
@@ -49,9 +49,10 @@ class Title extends Phaser.Scene {
     }
     init(data) {
         this.mutevalue = data.mutevalue;
+        this.mutevalue2 = data.mutevalue2;
     } 
     create() {
-
+        
         const fullText = this.add.text(50, 50, 'full screen', { fontSize: '50px', fill: '#24487a' });
         fullText.setDepth(1);
         fullText.setInteractive();
@@ -82,7 +83,7 @@ class Title extends Phaser.Scene {
         this.options = this.add.text(1600, 940, 'options', { fontSize: '100px', fill: '#24487a' }).setInteractive()
         this.options.on('pointerdown', () => {
             backgroundMusic.stop()
-            this.scene.start('options', { mutevalue: this.mutevalue })
+            this.scene.start('options', { mutevalue: this.mutevalue, mutevalue2: this.mutevalue2})
         });
         const creditsText = this.add.text(820, 950, 'credits', { fontSize: '100px', fill: '#24487a' });
         creditsText.setDepth(1);
@@ -105,7 +106,7 @@ class Title extends Phaser.Scene {
             });
             creditsText.on('pointerdown', () => {
                 backgroundMusic.stop();
-                this.scene.start('credits', { mutevalue: this.mutevalue });
+                this.scene.start('credits', { mutevalue: this.mutevalue, mutevalue2: this.mutevalue2 });
             });
 
 
@@ -133,7 +134,7 @@ class Title extends Phaser.Scene {
         });
         playText.on('pointerdown', () => {
             backgroundMusic.stop();
-            this.scene.start('sceneone', { mutevalue: this.mutevalue });
+            this.scene.start('sceneone', { mutevalue: this.mutevalue, mutevalue2: this.mutevalue2 });
         });
 
 
@@ -144,7 +145,7 @@ class Title extends Phaser.Scene {
                 clickSound.play();
             }
             backgroundMusic.stop();
-            this.scene.start('sceneone', { mutevalue: this.mutevalue });
+            this.scene.start('sceneone', { mutevalue: this.mutevalue, mutevalue2: this.mutevalue2 });
         });
 
         creditsText.on('pointerdown', () => {
@@ -152,7 +153,7 @@ class Title extends Phaser.Scene {
                 clickSound.play();
             }
             backgroundMusic.stop();
-            this.scene.start('credits', { mutevalue: this.mutevalue });
+            this.scene.start('credits', { mutevalue: this.mutevalue, mutevalue2: this.mutevalue2 });
         });
 
         const title = this.add.image(500, -100, 'title');
@@ -191,36 +192,59 @@ class options extends Phaser.Scene{
     }
     init(data) {
         this.mutevalue = data.mutevalue;
+        this.mutevalue2 = data.mutevalue2;
     } 
     create(){
         this.cameras.main.setBackgroundColor('#FFF200')
         this.back = this.add.text(1600, 940, 'back', { fontSize: '100px', fill: '#24487a' }).setInteractive()
         this.back.on('pointerdown', () => {
-            this.scene.start('title', { mutevalue: this.mutevalue })       
+            this.scene.start('title', { mutevalue: this.mutevalue, mutevalue2: this.mutevalue2 })       
         });
+        this.add.text(675, 340, 'Music', { fontFamily: 'Times', fontSize: '80px', fill: '#000000' });
+        this.add.text(1275, 340, 'Sounds', { fontFamily: 'Times', fontSize: '80px', fill: '#000000' });
         if(this.mutevalue == false){
-            this.createunmute()
+            this.createbuttons(this.unmuted, this.muted, true, false, 750, 540, 1)
+            
         }
         else{
-            this.createmute();
+            this.createbuttons(this.muted, this.unmuted, false, true, 750, 540, 1);
+        }
+        if(this.mutevalue2 == false){
+            //console.log("yes")
+            this.createbuttons(this.unmuted2, this.muted2, true, false, 1350, 540, 2)
+        }
+        else{
+            this.createbuttons(this.muted2, this.unmuted2, false, true, 1350, 540, 2);
         }
     }
-    createunmute(){
-        this.unmuted = this.add.image(1050, 540, 'unmuted').setInteractive();
-                this.unmuted.on('pointerdown', () => {
-                    this.mutevalue = true;
-                    this.unmuted.destroy();
-                    this.createmute()
+    createbuttons(name, name2, mut1, mut2, cord1, cord2, mutval){
+        let which = 'unmuted';
+        if(mut1 == false){
+            which = 'muted'
+        }
+        name = this.add.image(cord1, cord2, which).setInteractive();
+                name.on('pointerdown', () => {
+                    if(mutval == 1){
+                        //console.log('this')
+                        this.mutevalue = mut1;
+                    }
+                    else{
+                        //console.log('that')
+                        this.mutevalue2 = mut1;
+                    }
+                    name.destroy();
+                    //console.log("new value:" + mutval + "mutevalue2: " + this.mutevalue2)
+                    this.createbuttons(name2, name, mut2, mut1, cord1, cord2, mutval)
         });
     }
-    createmute(){
-        this.muted = this.add.image(1050, 540, 'muted').setInteractive();
-                this.muted.on('pointerdown', () => {
+    /*createmute(name, name2){
+        name = this.add.image(1050, 540, 'muted').setInteractive();
+                name.on('pointerdown', () => {
                     this.mutevalue = false;
                     this.muted.destroy();
-                    this.createunmute()
+                    this.createunmute(this.unmuted, this.muted)
         });
-    }
+    }*/
 }
 
 
@@ -234,6 +258,7 @@ class Credits extends Phaser.Scene {
     }
     init(data) {
         this.mutevalue = data.mutevalue;
+        this.mutevalue2 = data.mutevalue2;
     } 
     create(){
         this.cameras.main.setBackgroundColor('#add8e6')
@@ -249,7 +274,7 @@ class Credits extends Phaser.Scene {
             backText.setStyle({ fill: '#24487a' });
         });
         backText.on('pointerdown', () => {
-            this.scene.start('title', { mutevalue: this.mutevalue });
+            this.scene.start('title', { mutevalue: this.mutevalue, mutevalue2: this.mutevalue2 });
         });
         const colText = this.add.text(50, 200, 'collaborators:\nProduction Lead:Kayla Garcia,\n\nTesting Lead:Christian Perez,\n\nTesting Lead:Jalen Suwa,\n\nTechnology Lead:Chase Houske ', { fontSize: '50px', fill: '#24487a' });
         colText.setDepth(1);
@@ -287,10 +312,11 @@ class SceneOne extends Prefab
 
     init(data) {
         this.mutevalue = data.mutevalue;
+        this.mutevalue2 = data.mutevalue2;
     } 
 
     create () 
-    {
+    {   
         super.create();
         this.spawnSlug();
         this.spawnObstacle();
@@ -323,6 +349,7 @@ class endScreen extends Phaser.Scene{
     init(data) {
         this.score = data.score;
         this.mutevalue = data.mutevalue;
+        this.mutevalue2 = data.mutevalue2;
     }
 
     constructor(){
@@ -343,7 +370,7 @@ class endScreen extends Phaser.Scene{
         this.playagain = this.add.text(800, 840, 'Play Again ', { fontFamily: 'Times', fontSize: '80px', fill: '#000000' }).setInteractive();
         this.playagain.on('pointerdown', () => {
             backgroundMusic.stop()
-            this.scene.start('sceneone', { mutevalue: this.mutevalue })
+            this.scene.start('sceneone', { mutevalue: this.mutevalue, mutevalue2: this.mutevalue2 })
         });
     }
 }
