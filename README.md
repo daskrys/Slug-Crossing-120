@@ -1,19 +1,12 @@
-# Final Project
-## Team:
-###     Jalen Suwa 
-###     Chase Houske
-###     Christian Perez
-###     Kayla Garcia
-
-[main game] 
-https://chouske.github.io/Final-Project/core-gameplay.html
+[main game] <br>
+https://chouske.github.io/Final-Project/core-gameplay.html <br>
 
 [prototypes]
-https://chouske.github.io/Final-Project/core-gameplay.html
-https://chouske.github.io/Final-Project/scene-flow.html
-https://chouske.github.io/Final-Project/cinematics.html
+https://chouske.github.io/Final-Project/core-gameplay.html <br>
+https://chouske.github.io/Final-Project/scene-flow.html <br>
+https://chouske.github.io/Final-Project/cinematics.html <br>
 
-[theme] The concept of "nearby in space, but close in time" was explored through the choice of setting, which is situated on Earth but in a distant future. In this intriguing timeframe, the player must contend with the relentless pursuit of mutated slugs.
+[theme] The concept of "nearby in space, but close in time" was explored through the choice of setting, which is situated on Earth but in a distant future. In this intriguing timeframe, the player must contend with the relentless pursuit of mutated slugs. <br>
 
 [selectable requirements] 
 Data-driven experience progression
