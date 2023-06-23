@@ -97,7 +97,7 @@ class Title extends Phaser.Scene
 
        // this.shader = this.add.shader('Tunnel', 1050, 540, 2100, 1080, [ 'theshader' ]);
        // this.shader.setInteractive();
-        this.cameras.main.setBackgroundColor('#add8e6')
+        this.cameras.main.setBackgroundColor('#ADD8E6')
 
         const backgroundMusic = this.sound.add('logos', { loop: true });
 
@@ -238,14 +238,14 @@ class Options extends Phaser.Scene
     create()
     {
         
-        this.cameras.main.setBackgroundColor('#add8e6')
+        this.cameras.main.setBackgroundColor('#ADD8E6')
 
-        this.back = this.add.text(50, 50, 'back', { fontSize: '20px', fill: '#24487a' }).setInteractive()
+        this.back = this.add.text(50, 50, 'back', { fontSize: '20px', fill: '#24487A' }).setInteractive()
         this.back.on('pointerdown', () => {
             this.scene.start('title', { mutevalue: this.mutevalue, mutevalue2: this.mutevalue2 })       
         });
-        this.add.text(200, 340, 'Music', { fontFamily: 'Times', fontSize: '20px', fill: '#24487a' });
-        this.add.text(350, 340, 'Sounds', { fontFamily: 'Times', fontSize: '20px', fill: '#24487a' });
+        this.add.text(200, 340, 'Music', { fontFamily: 'Times', fontSize: '20px', fill: '#24487A' });
+        this.add.text(350, 340, 'Sounds', { fontFamily: 'Times', fontSize: '20px', fill: '#24487A' });
 
         if(this.mutevalue == false)
         {
@@ -281,37 +281,28 @@ class Options extends Phaser.Scene
         this.tweens.add({
             targets: name,
             duration: 1000,
-            x: '+=10',
-            y: '+=10',
+            x: '+=7',
+            y: '+=7',
             repeat: -1,
             yoyo: true
         });
 
         name.on('pointerdown', () => {
+            
             if(mutval == 1)
             {
-                   //console.log('this')
                     this.mutevalue = mut1;
             }
             else
             {
-                //console.log('that')
                 this.mutevalue2 = mut1;
             }
 
             name.destroy();
-            //console.log("new value:" + mutval + "mutevalue2: " + this.mutevalue2)
+            
             this.createbuttons(name2, name, mut2, mut1, cord1, cord2, mutval)
         });
     }
-    /*createmute(name, name2){
-        name = this.add.image(1050, 540, 'muted').setInteractive();
-                name.on('pointerdown', () => {
-                    this.mutevalue = false;
-                    this.muted.destroy();
-                    this.createunmute(this.unmuted, this.muted)
-        });
-    }*/
 }
 
 class Credits extends Phaser.Scene 
@@ -437,7 +428,7 @@ class EndScreen extends Phaser.Scene
 
     create()
     {
-        this.cameras.main.setBackgroundColor('#FFF200')
+        this.cameras.main.setBackgroundColor('#24487A')
         this.add.text(900, 440, 'You Lose!\nSCORE: ' + this.score, { fontFamily: 'Times', fontSize: '80px', fill: '#000000' });
 
         const sceneOne = this.scene.get('sceneone');
@@ -470,8 +461,8 @@ let config = {
         width: 600,
         height: 1000,
     },
-    scene: [Options],
-    //scene: [SceneZero, Title,Credits, SceneOne, EndScreen, Options],
+    scene: [SceneOne],
+    //scene: [Title, SceneZero, SceneOne, Endscene, Options, Credits],
     title: "Slug Crossing",
     physics: {
         default: 'arcade',
