@@ -6,7 +6,7 @@ class Prefab extends Phaser.Scene
         super(key);
     }
 
-    preload ()
+    preload()
     {
         this.load.image('ground', 'assets/ground.png');
         this.load.atlas('player', 'assets/player/playersheet.png', 'JSON/player.json');
@@ -29,7 +29,8 @@ class Prefab extends Phaser.Scene
         this.load.json('theconfig', 'JSON/config.json')
         
     }
-    create () 
+
+    create() 
     {   
         this.jumpSound = this.sound.add('jumpSound');
         this.config = this.cache.json.get('theconfig');
@@ -119,16 +120,12 @@ class Prefab extends Phaser.Scene
         this.physics.add.overlap(this.player, this.wall, this.endGame, null, this);
         this.player.anims.play('running');
 
- 
         this.obstacle = this.physics.add.group();
-        
-
         this.slugs = this.physics.add.group();
-
+        this.birds = this.physics.add.group();
 
         this.input.on('pointerdown', this.jump, this);
         this.player.airjump = false;
-
 
         this.score = 0;
         this.scoreBox = this.add.text(20, 25, 'SCORE: 0', { fontFamily: 'Times', fontSize: '40px', fill: '#FFFFFF' });
@@ -144,7 +141,7 @@ class Prefab extends Phaser.Scene
     }
     
 
-    collectSlug (player, slug)
+    collectSlug(player, slug)
     {   const beep = this.sound.add('blip', { loop: false });
         
         if(this.mutevalue2 == false)
@@ -166,7 +163,7 @@ class Prefab extends Phaser.Scene
             this.emitter.emitParticleAt(this.player.x, this.player.y, 4);
     }
 
-    spawnObstacle ()
+    spawnObstacle()
     {   
         this.whichobj = Math.floor(Math.random() * 3);
         this.myarray = ['rock1', 'rock2', 'rock3']
@@ -202,7 +199,7 @@ class Prefab extends Phaser.Scene
             this.time.delayedCall(2000, this.spawnTree, [], this);
     }
 
-    spawnSlug ()
+    spawnSlug()
     {
         this.slug = this.slugs.create(2320, 756, 'slug');
         this.slug.setGravityY(-1000).setGravityX(parseInt(this.config["slugvel"])).setScale(1.6);
@@ -213,7 +210,15 @@ class Prefab extends Phaser.Scene
         this.time.delayedCall(Phaser.Math.Between(5000, 10000), this.spawnSlug, [], this);
     }
 
-    hit (player, obstacle)
+    spawnBird()
+    {
+        this.bird = this.birds.create(2320, 100, 'bird');
+        this.bird.setGravityY(0).setScale(1.5);
+        this.bird.anims.play('birdfly');
+      //  this.physics.add.overlap(this.player, this.bird, this.collectBird, null, this);
+    }
+
+    hit(player, obstacle)
     {
         obstacle.disableBody(true, true);
         this.player.anims.play('rolling');
@@ -225,7 +230,7 @@ class Prefab extends Phaser.Scene
 
     }
 
-    jump ()
+    jump()
     { 
         this.player.anims.play('jumping');
         
@@ -266,7 +271,7 @@ class Prefab extends Phaser.Scene
         
     }
 
-    update () 
+    update() 
     {   
         if((this.score == 5) && (this.changecount == 0))
         {
