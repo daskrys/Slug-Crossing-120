@@ -51,7 +51,7 @@ class Title extends Phaser.Scene
         
         this.load.path="./assets/";
         this.load.image('title','slug crossing.png');
-        this.load.image('background','background.png');
+        this.load.image('background2','background.png');
         this.load.audio('logos', 'menu_music.wav');
         this.load.glsl('bundle', 'bundle.glsl.js');
         this.load.audio('click', 'click2start.wav');
@@ -65,8 +65,8 @@ class Title extends Phaser.Scene
 
     create() 
     {    
-        this.background = this.add.tileSprite(0, 0, this.sys.game.config.width, this.sys.game.config.height, 'background');
-        this.background.setOrigin(0, 0).setDepth(0);
+        this.background2 = this.add.tileSprite(0, 0, this.sys.game.config.width, this.sys.game.config.height, 'background2');
+        this.background2.setOrigin(0, 0).setDepth(0);
 
         const fullText = this.add.text(50, 50, 'Fullscreen', { fontSize: '20px', fill: '#FFF' });
 
@@ -226,7 +226,7 @@ class Options extends Phaser.Scene
         this.load.path="./assets/";
         this.load.image('unmuted', 'audio.png;')
         this.load.image('muted', 'mute.png');
-        this.load.image('background', 'background.png');
+        this.load.image('background2', 'background.png');
     }
 
     init(data)
@@ -315,7 +315,7 @@ class Credits extends Phaser.Scene
     preload()
     {
         this.load.path="./assets/";
-        this.load.image('background','background.png');
+        this.load.image('background2','background.png');
     }
 
     init(data) 
@@ -326,8 +326,8 @@ class Credits extends Phaser.Scene
 
     create()
     {
-        this.background = this.add.tileSprite(0, 0, this.sys.game.config.width, this.sys.game.config.height, 'background');
-        this.background.setOrigin(0, 0).setDepth(0);
+        this.background2 = this.add.tileSprite(0, 0, this.sys.game.config.width, this.sys.game.config.height, 'background2');
+        this.background2.setOrigin(0, 0).setDepth(0);
         ////Back button/////
         const backText = this.add.text(50, 50, 'back', { fontSize: '20px', fill: '#FF0' });
         backText.setDepth(1);
@@ -379,8 +379,18 @@ class SceneOne extends Prefab
     } 
 
     create() 
-    {   
+    {  
         super.create();
+        this.tutorial = this.add.text(210, 315, 'Tap to Jump', { fontFamily: 'Times', fontSize: '30px', fill: '#FF0' });
+        this.time.delayedCall(3500, () => {
+            this.tutorial.setText("Avoid the Giant \nMutant Slug & \nCollect Banana Slugs");
+            this.time.delayedCall(5500, () => {
+                this.tutorial.setText("Tap twice to\nDouble jump and\nCollect Banana Birds");
+                this.time.delayedCall(4500, () => {
+                    this.tutorial.destroy();
+                });
+            });
+        });
         this.spawnSlug();
         this.spawnBird();
         this.spawnObstacle();
@@ -397,6 +407,11 @@ class SceneOne extends Prefab
         {
             this.add.text(1250, 25, 'Background Music Plays', { fontFamily: 'Times', fontSize: '80px', fill: '#000000' });
         }
+    }
+
+    startGame()
+    {
+        
     }
 
     update() 
@@ -428,8 +443,8 @@ class EndScreen extends Phaser.Scene
 
     create()
     {
-        this.cameras.main.setBackgroundColor('#24487A')
-        this.add.text(900, 440, 'You Lose!\nSCORE: ' + this.score, { fontFamily: 'Times', fontSize: '80px', fill: '#000000' });
+        this.cameras.main.setBackgroundColor('#ADD8E6')
+        this.add.text(250, 440, 'You Lose!\nSCORE: ' + this.score, { fontFamily: 'Times', fontSize: '20px', fill: '#000000' });
 
         const sceneOne = this.scene.get('sceneone');
         sceneOne.sound.stopAll(); 
@@ -442,10 +457,10 @@ class EndScreen extends Phaser.Scene
         }
         else
         {
-            this.add.text(1450, 25, 'Loss Music Plays', { fontFamily: 'Times', fontSize: '80px', fill: '#000000' });
+            this.add.text(250, 75, 'Loss Music Plays', { fontFamily: 'Times', fontSize: '80px', fill: '#000000' });
         }
 
-        this.playagain = this.add.text(900, 740, 'Play Again ', { fontFamily: 'Times', fontSize: '80px', fill: '#000000' }).setInteractive();
+        this.playagain = this.add.text(250, 740, 'Play Again ', { fontFamily: 'Times', fontSize: '30px', fill: '#000000' }).setInteractive();
         this.playagain.on('pointerdown', () => {
             backgroundMusic.stop()
             this.scene.start('sceneone', { mutevalue: this.mutevalue, mutevalue2: this.mutevalue2 })
@@ -461,8 +476,8 @@ let config = {
         width: 600,
         height: 1000,
     },
-    scene: [SceneOne],
-    //scene: [Title, SceneZero, SceneOne, Endscene, Options, Credits],
+    //scene: [EndScreen],
+    scene: [SceneZero, Title, Credits, SceneOne, EndScreen, Options],
     title: "Slug Crossing",
     physics: {
         default: 'arcade',
