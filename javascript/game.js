@@ -223,9 +223,10 @@ class Options extends Phaser.Scene
 
     preload()
     {
-        this.load.path="./assets/"
-        this.load.image('unmuted', 'audio.png')
-        this.load.image('muted', 'mute.png')
+        this.load.path="./assets/";
+        this.load.image('unmuted', 'audio.png;')
+        this.load.image('muted', 'mute.png');
+        this.load.image('background', 'background.png');
     }
 
     init(data)
@@ -236,32 +237,33 @@ class Options extends Phaser.Scene
 
     create()
     {
-        this.cameras.main.setBackgroundColor('#FFF200')
-        this.back = this.add.text(1600, 940, 'back', { fontSize: '100px', fill: '#24487a' }).setInteractive()
+        
+        this.cameras.main.setBackgroundColor('#add8e6')
+
+        this.back = this.add.text(50, 50, 'back', { fontSize: '20px', fill: '#24487a' }).setInteractive()
         this.back.on('pointerdown', () => {
             this.scene.start('title', { mutevalue: this.mutevalue, mutevalue2: this.mutevalue2 })       
         });
-        this.add.text(675, 340, 'Music', { fontFamily: 'Times', fontSize: '80px', fill: '#000000' });
-        this.add.text(1275, 340, 'Sounds', { fontFamily: 'Times', fontSize: '80px', fill: '#000000' });
+        this.add.text(200, 340, 'Music', { fontFamily: 'Times', fontSize: '20px', fill: '#24487a' });
+        this.add.text(350, 340, 'Sounds', { fontFamily: 'Times', fontSize: '20px', fill: '#24487a' });
 
         if(this.mutevalue == false)
         {
-            this.createbuttons(this.unmuted, this.muted, true, false, 750, 540, 1)
+            this.createbuttons(this.unmuted, this.muted, true, false, 230, 290, 1)
             
         }
         else
         {
-            this.createbuttons(this.muted, this.unmuted, false, true, 750, 540, 1);
+            this.createbuttons(this.muted, this.unmuted, false, true, 230, 290, 1);
         }
 
         if(this.mutevalue2 == false)
         {
-            //console.log("yes")
-            this.createbuttons(this.unmuted2, this.muted2, true, false, 1350, 540, 2)
+            this.createbuttons(this.unmuted2, this.muted2, true, false, 380, 290, 2)
         }
         else
         {
-            this.createbuttons(this.muted2, this.unmuted2, false, true, 1350, 540, 2);
+            this.createbuttons(this.muted2, this.unmuted2, false, true, 380, 290, 2);
         }
     }
 
@@ -274,22 +276,32 @@ class Options extends Phaser.Scene
             which = 'muted'
         }
 
-        name = this.add.image(cord1, cord2, which).setInteractive();
-                name.on('pointerdown', () => {
-                    if(mutval == 1)
-                    {
-                        //console.log('this')
-                        this.mutevalue = mut1;
-                    }
-                    else
-                    {
-                        //console.log('that')
-                        this.mutevalue2 = mut1;
-                    }
+        name = this.add.image(cord1, cord2, which).setInteractive().setScale(0.25);
 
-                    name.destroy();
-                    //console.log("new value:" + mutval + "mutevalue2: " + this.mutevalue2)
-                    this.createbuttons(name2, name, mut2, mut1, cord1, cord2, mutval)
+        this.tweens.add({
+            targets: name,
+            duration: 1000,
+            x: '+=10',
+            y: '+=10',
+            repeat: -1,
+            yoyo: true
+        });
+
+        name.on('pointerdown', () => {
+            if(mutval == 1)
+            {
+                   //console.log('this')
+                    this.mutevalue = mut1;
+            }
+            else
+            {
+                //console.log('that')
+                this.mutevalue2 = mut1;
+            }
+
+            name.destroy();
+            //console.log("new value:" + mutval + "mutevalue2: " + this.mutevalue2)
+            this.createbuttons(name2, name, mut2, mut1, cord1, cord2, mutval)
         });
     }
     /*createmute(name, name2){
@@ -458,7 +470,7 @@ let config = {
         width: 600,
         height: 1000,
     },
-    scene: [Credits],
+    scene: [Options],
     //scene: [SceneZero, Title,Credits, SceneOne, EndScreen, Options],
     title: "Slug Crossing",
     physics: {
