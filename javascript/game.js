@@ -20,12 +20,14 @@ class SceneZero extends Phaser.Scene {
                 align: "center"
             } //style
         );
+
         this.tweens.add({
             targets: this.textObject0,
             alpha:0,
             duration: 2000,
             repeat: -1,
         });
+
         this.tweens.add({
             targets: this.textObject8,
             alpha:0,
@@ -46,9 +48,10 @@ class Title extends Phaser.Scene
 
     preload()
     {
+        
         this.load.path="./assets/";
         this.load.image('title','slug crossing.png');
-        this.load.image('theshader','shade2.png');
+        this.load.image('background','background.png');
         this.load.audio('logos', 'menu_music.wav');
         this.load.glsl('bundle', 'bundle.glsl.js');
         this.load.audio('click', 'click2start.wav');
@@ -62,7 +65,11 @@ class Title extends Phaser.Scene
 
     create() 
     {    
-        const fullText = this.add.text(50, 50, 'full screen', { fontSize: '50px', fill: '#24487a' });
+        this.background = this.add.tileSprite(0, 0, this.sys.game.config.width, this.sys.game.config.height, 'background');
+        this.background.setOrigin(0, 0).setDepth(0);
+
+        const fullText = this.add.text(50, 50, 'Fullscreen', { fontSize: '20px', fill: '#FFF' });
+
         fullText.setDepth(1);
         fullText.setInteractive();
         fullText.on('pointerover', () => {
@@ -70,21 +77,26 @@ class Title extends Phaser.Scene
         });
 
         fullText.on('pointerout', () => {
-            fullText.setStyle({ fill: '#24487a' });
+            fullText.setStyle({ fill: '#FFF' });
         });
 
         fullText.on('pointerdown', () => {
-            if (this.scale.isFullscreen) {
+
+            if (this.scale.isFullscreen) 
+            {
                 this.scale.stopFullscreen();
-            } else {
+            } 
+            else 
+            {
                 this.scale.startFullscreen();
             }
+
         });
         
         this.cameras.main.fadeIn(3000);
 
-        this.shader = this.add.shader('Tunnel', 1050, 540, 2100, 1080, [ 'theshader' ]);
-        this.shader.setInteractive();
+       // this.shader = this.add.shader('Tunnel', 1050, 540, 2100, 1080, [ 'theshader' ]);
+       // this.shader.setInteractive();
         this.cameras.main.setBackgroundColor('#add8e6')
 
         const backgroundMusic = this.sound.add('logos', { loop: true });
@@ -98,31 +110,33 @@ class Title extends Phaser.Scene
             this.add.text(1250, 25, 'Background Music Plays', { fontFamily: 'Times', fontSize: '80px', fill: '#000000' });
         }
 
-        this.options = this.add.text(1600, 940, 'options', { fontSize: '100px', fill: '#24487a' }).setInteractive()
+        this.options = this.add.text(250, 560, 'options', { fontSize: '30px', fill: '#FF0' }).setInteractive();
+        this.options.setDepth(1);
+        this.options.setInteractive();
+        
+        this.options.on('pointerover', () => {
+            this.options.setStyle({fill: '#FFF'});
+        })
+
+        this.options.on('pointerout', () => {
+            this.options.setStyle({ fill: '#FF0' });
+        });
+
         this.options.on('pointerdown', () => {
             backgroundMusic.stop()
             this.scene.start('options', { mutevalue: this.mutevalue, mutevalue2: this.mutevalue2})
         });
 
-        const creditsText = this.add.text(820, 950, 'credits', { fontSize: '100px', fill: '#24487a' });
+        const creditsText = this.add.text(250, 600, 'credits', { fontSize: '30px', fill: '#FF0' });
         creditsText.setDepth(1);
         creditsText.setInteractive();
-        this.tweens.add({
-            targets: creditsText,
-            duration: 500,
-            scaleX: 1.03,
-            scaleY: 1.03,
-            yoyo: true,
-            repeat: -1,
-            ease: 'Sine.easeInOut'
-        });
 
         creditsText.on('pointerover', () => {
-            creditsText.setStyle({ fill: '#ff0' });
+            creditsText.setStyle({ fill: '#FFF' });
         });
 
         creditsText.on('pointerout', () => {
-            creditsText.setStyle({ fill: '#24487a' });
+            creditsText.setStyle({ fill: '#FF0' });
         });
 
         creditsText.on('pointerdown', () => {
@@ -130,13 +144,12 @@ class Title extends Phaser.Scene
             this.scene.start('credits', { mutevalue: this.mutevalue, mutevalue2: this.mutevalue2 });
         });
 
-        const playText = this.add.text(900, 800, 'play', { fontSize: '100px', fill: '#24487a' });
+        const playText = this.add.text(255, 520, 'play', { fontSize: '30px', fill: '#FF0' });
         playText.setDepth(1);
         playText.setInteractive();
 
-      
         this.tweens.add({
-            targets: playText,
+            targets: [playText, creditsText, this.options],
             duration: 500,
             scaleX: 1.03,
             scaleY: 1.03,
@@ -146,11 +159,11 @@ class Title extends Phaser.Scene
         });
         
         playText.on('pointerover', () => {
-            playText.setStyle({ fill: '#ff0' });
+            playText.setStyle({ fill: '#FFF' });
         });
 
         playText.on('pointerout', () => {
-            playText.setStyle({ fill: '#24487a' });
+            playText.setStyle({ fill: '#FF0' });
         });
 
         playText.on('pointerdown', () => {
@@ -177,15 +190,16 @@ class Title extends Phaser.Scene
             this.scene.start('credits', { mutevalue: this.mutevalue, mutevalue2: this.mutevalue2 });
         });
 
-        const title = this.add.image(500, -100, 'title');
+        const title = this.add.image(50, 50, 'title');
         title.setOrigin(0);
         title.setDepth(0);
         title.setInteractive();
+        title.setScale(0.5);
 
         title.on('pointerover', () => {
             this.tweens.add({
                 targets: title,
-                duration: 100,
+                duration: 300,
                 x: '+=10',
                 y: '+=10',
                 repeat: -1,
@@ -195,7 +209,7 @@ class Title extends Phaser.Scene
 
         title.on('pointerout', () => {
             this.tweens.killTweensOf(title);
-            title.setPosition(500, -100);
+            title.setPosition(50, 50);
         });
     }
 }
@@ -298,6 +312,7 @@ class Credits extends Phaser.Scene
     preload()
     {
         this.load.path="./assets/";
+        this.load.image('background','background.png');
     }
 
     init(data) 
@@ -308,33 +323,34 @@ class Credits extends Phaser.Scene
 
     create()
     {
-        this.cameras.main.setBackgroundColor('#add8e6')
+        this.background = this.add.tileSprite(0, 0, this.sys.game.config.width, this.sys.game.config.height, 'background');
+        this.background.setOrigin(0, 0).setDepth(0);
         ////Back button/////
-        const backText = this.add.text(50, 50, 'back', { fontSize: '100px', fill: '#24487a' });
+        const backText = this.add.text(50, 50, 'back', { fontSize: '20px', fill: '#FF0' });
         backText.setDepth(1);
         backText.setInteractive();
         backText.on('pointerover', () => {
-            backText.setStyle({ fill: '#ff0' });
+            backText.setStyle({ fill: '#FFF' });
         });
 
         backText.on('pointerout', () => {
-            backText.setStyle({ fill: '#24487a' });
+            backText.setStyle({ fill: '#FF0' });
         });
 
         backText.on('pointerdown', () => {
             this.scene.start('title', { mutevalue: this.mutevalue, mutevalue2: this.mutevalue2 });
         });
 
-        const colText = this.add.text(50, 200, 'collaborators:\nProduction Lead:Kayla Garcia,\n\nTesting Lead:Christian Perez,\n\nTesting Lead:Jalen Suwa,\n\nTechnology Lead:Chase Houske ', { fontSize: '50px', fill: '#24487a' });
+        const colText = this.add.text(110, 165, '       Collaborators:\n\nProduction Lead - Kayla Garcia\nTesting Lead - Christian Perez\nTesting Lead - Jalen Suwa\nTechnology Lead -Chase Houske', { fontSize: '21px', fill: '#FF0' });
         colText.setDepth(1);
 
-        const artText = this.add.text(50, 600, 'all art done by Kayla Garcia using pixilart.com/photoshop/canva', { fontSize: '50px', fill: '#24487a' });
+        const artText = this.add.text(110, 400, 'All art created by Kayla Garcia \nTools: Pixilart.com, Photoshop, Canva', { fontSize: '17px', fill: '#FF0' });
         artText.setDepth(1);
 
-        const musicText = this.add.text(50, 685, 'all music done by Jalen Suwa using TheLovelyComposer/BFXR', { fontSize: '50px', fill: '#24487a' });
+        const musicText = this.add.text(110, 450, 'All music created by Jalen Suwa \nTools: TheLovelyComposer, BFXR', { fontSize: '17px', fill: '#FF0' });
         musicText.setDepth(1);
 
-        const codeText = this.add.text(50, 775, 'code was a group effort including:\n \nChase Houske, Christian Perez, Kayla Garcia', { fontSize: '50px', fill: '#24487a' });
+        const codeText = this.add.text(110, 500, 'Game Programming: \nChase Houske, Christian Perez, Kayla Garcia', { fontSize: '17px', fill: '#FF0' });
         codeText.setDepth(1);
     }
 }
@@ -370,13 +386,14 @@ class SceneOne extends Prefab
 
         const backgroundMusic = this.sound.add('bg', { loop: true });
 
-        if(this.mutevalue == false){
+        if(this.mutevalue == false)
+        {
             backgroundMusic.play();
         }
-        else{
+        else
+        {
             this.add.text(1250, 25, 'Background Music Plays', { fontFamily: 'Times', fontSize: '80px', fill: '#000000' });
         }
-        
     }
 
     update() 
@@ -389,12 +406,10 @@ class SceneOne extends Prefab
 
 class EndScreen extends Phaser.Scene
 {
-
     preload()
     {
         this.load.audio('end',"assets/end_screen_music.wav");
     }
-
 
     init(data) 
     {
@@ -443,8 +458,8 @@ let config = {
         width: 600,
         height: 1000,
     },
-
-    scene: [SceneZero, Title,Credits, SceneOne, EndScreen, Options],
+    scene: [Credits],
+    //scene: [SceneZero, Title,Credits, SceneOne, EndScreen, Options],
     title: "Slug Crossing",
     physics: {
         default: 'arcade',
