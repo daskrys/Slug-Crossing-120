@@ -213,9 +213,11 @@ class Prefab extends Phaser.Scene
     spawnBird()
     {
         this.bird = this.birds.create(2320, 100, 'bird');
-        this.bird.setGravityY(0).setScale(1.5);
+        this.bird.setGravityY(-1000).setGravityX(-600).setScale(4);
         this.bird.anims.play('birdfly');
       //  this.physics.add.overlap(this.player, this.bird, this.collectBird, null, this);
+
+        this.time.delayedCall(Phaser.Math.Between(9000, 15000), this.spawnBird, [], this);
     }
 
     hit(player, obstacle)

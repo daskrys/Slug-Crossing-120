@@ -1,8 +1,8 @@
-class S0 extends Phaser.Scene {
+class SceneZero extends Phaser.Scene {
     
     constructor() 
     {
-        super('s0');
+        super('scenezero');
     }
     
     create() 
@@ -11,11 +11,11 @@ class S0 extends Phaser.Scene {
         this.cameras.main.setBackgroundColor('#000000');
 
         this.textObject0 = this.add.text(
-            735, 
+            120, 
             350,
             "click to progress", 
             {
-                font: "100px Arial",
+                font: "50px Arial",
                 color: "#FFFFFF",
                 align: "center"
             } //style
@@ -200,7 +200,7 @@ class Title extends Phaser.Scene
     }
 }
 
-class options extends Phaser.Scene
+class Options extends Phaser.Scene
 {
     constructor() 
     {
@@ -363,6 +363,7 @@ class SceneOne extends Prefab
     {   
         super.create();
         this.spawnSlug();
+        this.spawnBird();
         this.spawnObstacle();
         this.time.delayedCall(2000, this.spawnTree, [], this);
         this.treespawn = false;
@@ -386,7 +387,7 @@ class SceneOne extends Prefab
 
 
 
-class endScreen extends Phaser.Scene
+class EndScreen extends Phaser.Scene
 {
 
     preload()
@@ -425,7 +426,7 @@ class endScreen extends Phaser.Scene
         {
             this.add.text(1450, 25, 'Loss Music Plays', { fontFamily: 'Times', fontSize: '80px', fill: '#000000' });
         }
-        
+
         this.playagain = this.add.text(900, 740, 'Play Again ', { fontFamily: 'Times', fontSize: '80px', fill: '#000000' }).setInteractive();
         this.playagain.on('pointerdown', () => {
             backgroundMusic.stop()
@@ -439,11 +440,11 @@ let config = {
     scale: {
         mode: Phaser.Scale.FIT,
         autoCenter: Phaser.Scale.CENTER_BOTH,
-        width: 2100,
-        height: 1080,
+        width: 600,
+        height: 1000,
     },
 
-    scene: [S0, Title,Credits, SceneOne, endScreen, options],
+    scene: [SceneZero, Title,Credits, SceneOne, EndScreen, Options],
     title: "Slug Crossing",
     physics: {
         default: 'arcade',
