@@ -102,9 +102,10 @@ class Prefab extends Phaser.Scene
         //evil slug
         this.wall= this.physics.add.sprite(150, 690, 'deathslug')
             .setScale(3);    
-        //.setImmovable();
+            //.setImmovable();
         this.wall.anims.play('meanslugrunning');
         this.physics.add.collider(this.wall, this.platforms)
+
         // player
         this.player = this.physics.add.sprite(800, 655, 'player')
             .setScale(4.5)  
@@ -145,10 +146,13 @@ class Prefab extends Phaser.Scene
 
     collectSlug (player, slug)
     {   const beep = this.sound.add('blip', { loop: false });
-        if(this.mutevalue2 == false){
+        
+        if(this.mutevalue2 == false)
+        {
             beep.play();
         }
-        else{
+        else
+        {
             this.temptext3 = this.add.text(1650, 225, 'Blip noise', { fontFamily: 'Times', fontSize: '80px', fill: '#000000' });
             this.time.delayedCall(500, () => {this.temptext3.destroy()});
             
@@ -163,7 +167,8 @@ class Prefab extends Phaser.Scene
     }
 
     spawnObstacle ()
-    {   this.whichobj = Math.floor(Math.random() * 3);
+    {   
+        this.whichobj = Math.floor(Math.random() * 3);
         this.myarray = ['rock1', 'rock2', 'rock3']
         this.theobstacle = this.obstacle.create(2750, 765, this.myarray[this.whichobj]) // breaks if i change to bird
             .setImmovable(true)
@@ -171,18 +176,24 @@ class Prefab extends Phaser.Scene
         this.physics.add.collider(this.player, this.obstacle); 
         console.log(this.score)
         this.theobstacle.setGravityY(-1000).setVelocityX(parseInt(this.config["objspd"])).setScale(0.075);
-        if(this.score > 15){
+
+        if(this.score > 15)
+        {
             this.time.delayedCall(Phaser.Math.Between(500, 1000), this.spawnObstacle, [], this);
             console.log('yes')
         }
-        else if (this.score > 5){
+        else if (this.score > 5)
+        {
             this.time.delayedCall(Phaser.Math.Between(1000, 2500), this.spawnObstacle, [], this);
         }
-        else{
+        else
+        {
             this.time.delayedCall(Phaser.Math.Between(2500, 4000), this.spawnObstacle, [], this);
         }
     }
-    spawnTree(){
+
+    spawnTree()
+    {
         this.tree = this.physics.add.sprite(2750, 605, 'tree')
             .setImmovable(true)
             .setGravityY(-1000)
@@ -220,67 +231,54 @@ class Prefab extends Phaser.Scene
         
         if(this.player.body.touching.down)
         {
-            if(this.mutevalue2 == false){
+            if(this.mutevalue2 == false)
+            {
                 this.jumpSound.play();
             }
-            else{
-                if(this.mutevalue == false){
-                    this.temptext = this.add.text(1650, 25, 'Player jumps', { fontFamily: 'Times', fontSize: '80px', fill: '#000000' });
-                    this.time.delayedCall(500, () => {this.temptext.destroy()});
-                    
-                }
-                else{
-                    this.temptext = this.add.text(1650, 125, 'Player jumps', { fontFamily: 'Times', fontSize: '80px', fill: '#000000' });
-                    this.time.delayedCall(500, () => {this.temptext.destroy()});
-                    
-                }
-            }
+
             this.player.setVelocityY(parseInt(this.config["jumpvel"]));
             this.recenttime = this.game.getTime();
         }
-        else if ((this.player.body.touching.down == false) && ((this.game.getTime() - this.recenttime) > 500) && this.player.airjump){
+        else if ((this.player.body.touching.down == false) && ((this.game.getTime() - this.recenttime) > 500) && this.player.airjump)
+        {
             this.player.airjump = false;
             this.player.setVelocityY(parseInt(this.config["jumpvel"]));
-            if(this.mutevalue2 == false){
+
+            if(this.mutevalue2 == false)
+            {
                 this.jumpSound.play();
             }
-            else{
-                if(this.mutevalue == false){
-                    this.temptext2 = this.add.text(1400, 25, 'Player double jumps', { fontFamily: 'Times', fontSize: '80px', fill: '#000000' });
-                    this.time.delayedCall(500, () => {this.temptext2.destroy()});
-                    
-                }
-                else{
-                    this.temptext2 = this.add.text(1400, 125, 'Player double jumps', { fontFamily: 'Times', fontSize: '80px', fill: '#000000' });
-                    this.time.delayedCall(500, () => {this.temptext2.destroy()});
-                    
-                }
-            }
-
         }
 
         this.time.delayedCall(1500, () => {
             this.player.anims.play('running');
         });
     }   
-    endGame(player, wall){
-        if(this.score >= 5){
+
+    endGame(player, wall)
+    {
+        if(this.score >= 5)
+        {
             this.config["objspd"] = parseInt(this.config["objspd"]) / 2;
             this.config["slugvel"] = parseInt(this.config["slugvel"]) / 2;
         }
         this.scene.start('endscreen', { score: this.score, mutevalue: this.mutevalue, mutevalue2: this.mutevalue2 })
         
     }
+
     update () 
-    {   if((this.score == 5) && (this.changecount == 0)){
-        //console.log("old" + this.config["objspd"])
-        this.config["objspd"] = parseInt(this.config["objspd"]) * 2;
-        //console.log("new" + this.config["objspd"])
-        this.config["slugvel"] = parseInt(this.config["slugvel"]) * 2;
-        this.changecount = this.changecount + 1;
-        this.slug.setGravityX(parseInt(this.config["slugvel"]))
-        this.theobstacle.setGravityX(parseInt(this.config["objspd"]))
-    }
+    {   
+        if((this.score == 5) && (this.changecount == 0))
+        {
+            //console.log("old" + this.config["objspd"])
+            this.config["objspd"] = parseInt(this.config["objspd"]) * 2;
+            //console.log("new" + this.config["objspd"])
+            this.config["slugvel"] = parseInt(this.config["slugvel"]) * 2;
+            this.changecount = this.changecount + 1;
+            this.slug.setGravityX(parseInt(this.config["slugvel"]))
+            this.theobstacle.setGravityX(parseInt(this.config["objspd"]))
+        }
+
         if(this.player.body.touching.down)
         {
             this.player.airjump = true;
@@ -288,15 +286,20 @@ class Prefab extends Phaser.Scene
 
         this.background.tilePositionX += 1;
         this.theground.tilePositionX += 2.5;
-        if(this.physics.collide(this.player, this.obstacle) == true){
+
+        if(this.physics.collide(this.player, this.obstacle) == true)
+        {
             this.player.curspeed = 0;
             this.player.setVelocityX(this.player.curspeed);
         }
-        if((this.player.x < 800)){
+
+        if(this.player.x < 800)
+        {
             this.player.setVelocityX(this.player.curspeed)
             this.player.curspeed+= 0.2;
         }
-        else{
+        else
+        {
             this.player.curspeed = 0
             this.player.setVelocityX(this.player.curspeed)
         }
