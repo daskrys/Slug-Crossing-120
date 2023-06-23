@@ -461,6 +461,15 @@ class EndScreen extends Phaser.Scene
         }
 
         this.playagain = this.add.text(250, 740, 'Play Again ', { fontFamily: 'Times', fontSize: '30px', fill: '#000000' }).setInteractive();
+
+        this.playagain.on('pointerout', () => {
+            this.playagain.setStyle({ fill: '#000' });
+        });
+
+        this.playagain.on('pointerout', () => {
+            this.playagain.setStyle({ fill: '#FF0' });
+        });
+
         this.playagain.on('pointerdown', () => {
             backgroundMusic.stop()
             this.scene.start('sceneone', { mutevalue: this.mutevalue, mutevalue2: this.mutevalue2 })
