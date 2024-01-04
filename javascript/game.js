@@ -99,7 +99,10 @@ class Title extends Phaser.Scene
        // this.shader.setInteractive();
         this.cameras.main.setBackgroundColor('#ADD8E6')
 
-        const backgroundMusic = this.sound.add('logos', { loop: true });
+        const backgroundMusic = this.sound.add('logos', { 
+            loop: true,
+            volume: 0.15 
+        });
 
         if(this.mutevalue == false)
         {
