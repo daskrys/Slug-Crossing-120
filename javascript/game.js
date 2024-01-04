@@ -175,7 +175,7 @@ class Title extends Phaser.Scene
         });
 
 
-        const clickSound = this.sound.add('click');
+        const clickSound = this.sound.add('click', { volume: 0.15 });
 
         playText.on('pointerdown', () => {
             if(this.mutevalue == false){
@@ -400,7 +400,7 @@ class SceneOne extends Prefab
         this.time.delayedCall(2000, this.spawnTree, [], this);
         this.treespawn = false;
 
-        const backgroundMusic = this.sound.add('bg', { loop: true });
+        const backgroundMusic = this.sound.add('bg', { loop: true, volume: 0.15 });
 
         if(this.mutevalue == false)
         {
@@ -452,7 +452,7 @@ class EndScreen extends Phaser.Scene
         const sceneOne = this.scene.get('sceneone');
         sceneOne.sound.stopAll(); 
 
-        const backgroundMusic = this.sound.add('end', { loop: true });
+        const backgroundMusic = this.sound.add('end', { loop: true , volume: 0.15 });
 
         if(this.mutevalue == false)
         {

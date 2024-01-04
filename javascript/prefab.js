@@ -32,7 +32,7 @@ class Prefab extends Phaser.Scene
 
     create() 
     {   
-        this.jumpSound = this.sound.add('jumpSound');
+        this.jumpSound = this.sound.add('jumpSound', {volume: 0.15 });
         this.config = this.cache.json.get('theconfig');
         this.background = this.add.tileSprite(0, 0, this.sys.game.config.width, this.sys.game.config.height, 'background');
         this.background.setOrigin(0, 0);
@@ -145,7 +145,7 @@ class Prefab extends Phaser.Scene
 
     collectSlug(player, slug)
     {   
-        const beep = this.sound.add('blip', { loop: false });
+        const beep = this.sound.add('blip', { loop: false, volume: 0.15  });
         
         if(this.mutevalue2 == false)
         {
@@ -162,7 +162,7 @@ class Prefab extends Phaser.Scene
 
     collectBird(player, bird)
     {   
-        const beep = this.sound.add('blip', { loop: false });
+        const beep = this.sound.add('blip', { loop: false, volume: 0.15  });
         
         if(this.mutevalue2 == false)
         {
